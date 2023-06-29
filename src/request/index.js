@@ -13,5 +13,11 @@ export const DragonBall = () =>http.get("/homepage/dragon/ball");
 export const Personalized = () =>http.get("/personalized?limit=6");
 
 // 音乐日历
-export const Calendar = () =>http.get("/calendar?startTime=1687836243619&endTime=1687922643618");
+// export const Calendar = () =>http.get("/calendar?startTime=1687836243619&endTime=1687922643618");
+// 
+let nowDate = new Date()
+let start = new Date(`${nowDate.getFullYear()}-${nowDate.getMonth()+1}-${nowDate.getDate()} 00:00:00`)
+let end = new Date(`${nowDate.getFullYear()}-${nowDate.getMonth()+1}-${nowDate.getDate()} 23:59:59`)
+export const Calendar = () =>http.get(`/calendar?startTime=${start.getTime()}&endTime=${end.getTime()}`);
 // infinite图标
+// 

@@ -1,5 +1,8 @@
 <template>
-  <div class="w-[100vw] overflow-hidden">
+  <div
+    class="w-[100vw] overflow-hidden bg-[#f1faff]"
+    :style="{ height: `${drawerVisible ? '100vh' : ''}` }"
+  >
     <!-- 头部搜索框 -->
     <head-view></head-view>
     <!-- 轮播图 -->
@@ -7,13 +10,51 @@
     <!-- 菜单 -->
     <menu-view :menulist="menulist"></menu-view>
     <!-- 推荐歌单 -->
-    <command-song :result="result"></command-song>
+    <command-song
+      :result="result"
+      @update-message="updatemessage"
+    ></command-song>
+
     <!-- 新歌新碟\数字专辑 -->
-    <new-song :topsong="topsong"></new-song>
+    <new-song :topsong="topsong" @update-message="updatemessage"></new-song>
     <!-- 排行榜 -->
-    <charts-view :blocks="blocks"></charts-view>
+    <charts-view :blocks="blocks" @update-message="updatemessage"></charts-view>
     <!-- 音乐日历 -->
-    <calendar-view :Calendar="Calendar"></calendar-view>
+    <calendar-view
+      :Calendar="Calendar"
+      @update-message="updatemessage"
+    ></calendar-view>
+
+    <drawer-view :visible="drawerVisible">
+      <template #header>
+        <div
+          slot="header"
+          class="w-[90%] flex justify-between items-center my-3 mx-auto"
+        >
+          <p class="text-base">{{ title }}</p>
+          <Icon
+            color="#ccc"
+            icon="bi:x-circle"
+            style="font-size: 25px"
+            @click.native.stop="drawerVisible = !drawerVisible"
+          />
+        </div>
+      </template>
+      <div style="font-size: 20px">
+        <div class="flex my-4">
+          <Icon icon="heroicons:hand-thumb-up" class="text-3xl mx-3" />
+          <div>优先推荐</div>
+        </div>
+        <div class="flex my-4">
+          <Icon icon="basil:heart-off-outline" class="text-3xl mx-3" />
+          <div>减少推荐</div>
+        </div>
+        <div class="flex my-4">
+          <Icon icon="mingcute:more-4-line" class="text-3xl mx-3" />
+          <div>更多内容</div>
+        </div>
+      </div>
+    </drawer-view>
   </div>
 </template>
 <script>
@@ -26,6 +67,7 @@ import CommandSong from '@/components/CommandSong.vue';
 import NewSong from '@/components/NewSong.vue';
 import ChartsView from '@/components/ChartsView.vue';
 import CalendarView from '@/components/CalendarView.vue';
+
 export default {
   name: 'home',
   components: {
@@ -46,9 +88,16 @@ export default {
       topsong: [], //新歌新碟\数字专辑
       blocks: [], //排行榜
       Calendar: [], //音乐日历
+      drawerVisible: false, //最下面过渡
+      title: '',
     };
   },
-  methods: {},
+  methods: {
+    updatemessage(payload) {
+      this.drawerVisible = !this.drawerVisible;
+      this.title = payload;
+    },
+  },
   created() {
     BlockPage().then((res) => {
       this.banners = res.data.data.blocks[0].extInfo.banners;
@@ -63,7 +112,11 @@ export default {
       this.result = res.data.result;
     });
     Calendar().then((res) => {
-      this.Calendar = res.data.data.calendarEvents;
+      let Calendar1 = res.data.data.calendarEvents;
+      let Calendar = Calendar1.filter((item, index, arr) => {
+        return index < 2;
+      });
+      this.Calendar = Calendar;
     });
   },
 };

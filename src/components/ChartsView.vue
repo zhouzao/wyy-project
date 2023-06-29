@@ -1,31 +1,38 @@
 <template>
   <div>
-    <div class="flex items-center">
-      <h3 class="text-xl font-bold my-3 ml-3">排行榜</h3>
-      <Icon icon="icon-park:right" class="text-2xl" />
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <h3 class="text-xl font-bold my-3 ml-3" ref="command">排行榜</h3>
+        <Icon icon="icon-park:right" class="text-2xl" />
+      </div>
+      <Icon
+        icon="iconamoon:menu-kebab-vertical-bold"
+        class="text-2xl"
+        @click.native="chars"
+      />
     </div>
     <div class="w-[100%] overflow-hidden" ref="scroll3">
-      <div class="flex w-[2000px]">
-        <ul v-for="item in blocks" :key="item.id" class="w-[100%] ml-5">
-          <div class="flex" style="align-items: center">
-            <h3
-              style="
-                font-size: 20px;
-                font-weight: bold;
-                margin: 10px 0 10px 10px;
-              "
-            >
-              {{ item.uiElement.mainTitle.title }}
-            </h3>
-            <Icon icon="icon-park:right" font-size="25px" />
-            <div style="flex: 1; margin-left: 65px">
+      <div class="flex w-[2145px]">
+        <ul
+          v-for="item in blocks"
+          :key="item.id"
+          class="w-[100%] ml-5 bg-[#ffffff]"
+        >
+          <div class="flex items-center justify-between w-[90%] mx-auto">
+            <div class="flex items-center">
+              <h3 style="font-size: 20px; font-weight: bold">
+                {{ item.uiElement.mainTitle.title }}
+              </h3>
+              <Icon icon="icon-park:right" font-size="25px" />
+            </div>
+            <div>
               {{ item.uiElement.mainTitle.titleDesc }}
             </div>
           </div>
           <li
             v-for="(item1, index) in item.resources"
             :key="item1.id"
-            style="display: flex; align-items: center; height: 100px"
+            class="flex items-center h-[100px] w-[90%] mx-auto"
           >
             <img
               :src="
@@ -36,7 +43,20 @@
               alt=""
               style="width: 70px; height: 70px; border-radius: 15px"
             />
-            <span style="margin: 0 12px">{{ index + 1 }}</span>
+            <span
+              style="margin: 0 12px"
+              class="font-bold"
+              :style="{
+                color: `${
+                  index + 1 == 1
+                    ? '#ca952a'
+                    : index + 1 == 2
+                    ? '#757ea0'
+                    : '#be7444'
+                }`,
+              }"
+              >{{ index + 1 }}</span
+            >
             <div>
               <div
                 class="text-ellipsis overflow-hidden whitespace-nowrap w-[164px]"
@@ -57,9 +77,16 @@
                 }}
               </div>
             </div>
-            <span style="margin-left: 3px; color: red">{{
-              item1.uiElement.labelText.text
-            }}</span>
+            <span
+              style="margin-left: 3px"
+              class="text-[red]"
+              :style="{
+                color: `${
+                  item1.uiElement.labelText.text == '新晋' ? '#90d4ba' : ''
+                }`,
+              }"
+              >{{ item1.uiElement.labelText.text }}</span
+            >
           </li>
         </ul>
       </div>
@@ -92,6 +119,9 @@ export default {
           scrollbarTrackOffsetType: 'clickedPoint', // can use 'step'
         },
       });
+    },
+    chars() {
+      this.$emit('update-message', this.$refs.command.innerHTML);
     },
   },
 };

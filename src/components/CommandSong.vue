@@ -1,9 +1,15 @@
 <template>
   <div>
-    <div class="flex items-center">
-      <h3 class="text-xl font-bold my-3 ml-3">推荐歌单</h3>
-      <Icon icon="icon-park:right" class="text-2xl" />
-      <Icon icon="iconamoon:menu-kebab-vertical-bold" class="text-2xl ml-60" />
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <h3 class="text-xl font-bold my-3 ml-3" ref="command">推荐歌单</h3>
+        <Icon icon="icon-park:right" class="text-2xl" />
+      </div>
+      <Icon
+        icon="iconamoon:menu-kebab-vertical-bold"
+        class="text-2xl"
+        @click.native="change"
+      />
     </div>
     <div ref="scroll1" class="w-[100%] overflow-hidden relative">
       <ul class="flex" style="width: 780px; justify-content: space-around">
@@ -65,6 +71,11 @@ export default {
   },
   name: 'CommandSong',
   props: ['result'],
+  data() {
+    return {
+      // message: false,
+    };
+  },
   methods: {
     init1() {
       this.scroll1 = new BScroll(this.$refs.scroll1, {
@@ -80,14 +91,9 @@ export default {
         },
       });
     },
-    dataTruncation(playVolume) {
-      if (playVolume > 100000000) {
-        return `${Math.floor(playVolume / 100000000)}亿`;
-      } else if (playVolume > 100000) {
-        return `${Math.floor(playVolume / 10000)}万`;
-      } else {
-        return playVolume.toString();
-      }
+    change() {
+      // this.message = !this.message;
+      this.$emit('update-message', this.$refs.command.innerHTML);
     },
   },
   mounted() {
