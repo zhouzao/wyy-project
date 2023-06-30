@@ -11,13 +11,13 @@
       <Icon
         icon="iconamoon:menu-kebab-vertical-bold"
         class="text-2xl"
-        @click.native="calendar"
+        @click.native.capture="calendar"
       />
     </div>
     <div>
       <ul class="w-[95%] m-auto overflow-hidden bg-[#ffffff]">
         <li
-          v-for="(item, index) in Calendar"
+          v-for="(item, index) in Calendar_filter"
           :key="item.id"
           class="flex justify-between items-center w-[90%] my-4 m-auto"
         >
@@ -25,7 +25,7 @@
             class="w-[75%]"
             :style="{
               borderBottom: `${
-                index == Calendar.length - 1 ? '' : '1px solid #ccc'
+                index == Calendar_filter.length - 1 ? '' : '1px solid #ccc'
               }`,
             }"
           >
@@ -34,7 +34,15 @@
               <span>{{ dayjs(item.onlineTime).format('MM/DD ') }}</span>
               <span
                 class="text-[red]"
-                :style="{ color: `${item.tag == '预告' ? '#5d75a6' : ''}` }"
+                :style="{
+                  color: `${
+                    item.tag == '预告'
+                      ? '#5d75a6'
+                      : item.tag == '发布'
+                      ? 'blue'
+                      : ''
+                  }`,
+                }"
                 >{{ item.tag }}</span
               >
             </div>
@@ -57,6 +65,13 @@ export default {
   props: ['Calendar'],
   components: {
     Icon,
+  },
+  computed: {
+    Calendar_filter() {
+      return this.Calendar.filter((item, index) => {
+        return index < 2;
+      });
+    },
   },
   methods: {
     calendar() {

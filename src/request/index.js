@@ -10,7 +10,7 @@ export const BlockPage = () => http.get('/homepage/block/page');
 export const DragonBall = () =>http.get("/homepage/dragon/ball");
 
 // 推荐歌单
-export const Personalized = () =>http.get("/personalized?limit=6");
+// export const Personalized = () =>http.get("/personalized?limit=6");
 
 // 音乐日历
 // export const Calendar = () =>http.get("/calendar?startTime=1687836243619&endTime=1687922643618");

@@ -12,11 +12,41 @@
       />
     </div>
     <div ref="scroll1" class="w-[100%] overflow-hidden relative">
+      <button @click="express">点击</button>
       <ul class="flex" style="width: 780px; justify-content: space-around">
+        <li class="w-[120px]">
+          <div class="w-[120px] h-[170px] relative overflow-hidden">
+            <transition
+              name="abc"
+              v-for="(item, index) in result_banner.resources"
+              :key="item.id"
+            >
+              <div class="absolute top-0 left-0" v-if="index == current">
+                <img
+                  :src="
+                    result_banner.resources[current].uiElement.image.imageUrl
+                  "
+                  alt=""
+                  class="w-[120px] h-[120px] rounded-2xl"
+                />
+                <div
+                  class="text-[15px] h-[50px] line-clamp-2"
+                  v-if="index == current"
+                >
+                  {{
+                    result_banner.resources[current].uiElement.mainTitle.title
+                  }}
+                </div>
+              </div>
+              <!-- v-if="index == current" -->
+            </transition>
+          </div>
+        </li>
+
         <li v-for="item in result" :key="item.id" class="w-[120px]">
           <div class="relative">
             <img
-              :src="item.picUrl"
+              :src="item.resources[0].uiElement.image.imageUrl"
               alt=""
               class="w-[120px] h-[120px] rounded-2xl"
             />
@@ -36,7 +66,9 @@
                 </svg>
               </span>
               <span class="text-white">{{
-                parseInt(item.playCount / 10000).toFixed(1) + '万'
+                parseInt(
+                  item.resources[0].resourceExtInfo.playCount / 10000
+                ).toFixed(1) + '万'
               }}</span>
             </div>
             <div class="absolute bottom-0 right-1">
@@ -54,8 +86,8 @@
               </svg>
             </div>
           </div>
-          <div class="w-[100px] h-[52px] over">
-            {{ item.name }}
+          <div class="text-[15px] h-[50px] line-clamp-2">
+            {{ item.resources[0].uiElement.mainTitle.title }}
           </div>
         </li>
       </ul>
@@ -70,7 +102,7 @@ export default {
     Icon,
   },
   name: 'CommandSong',
-  props: ['result'],
+  props: ['result', 'result_banner', 'visible', 'current'],
   data() {
     return {
       // message: false,
@@ -95,9 +127,32 @@ export default {
       // this.message = !this.message;
       this.$emit('update-message', this.$refs.command.innerHTML);
     },
+    express() {
+      this.$emit('express_msg');
+    },
   },
   mounted() {
     this.init1();
   },
 };
 </script>
+<style scope>
+.abc-enter {
+  transform: translateY(100%) scale(0.7);
+}
+.abc-enter-active {
+  transition: all ease-in-out 1.2s;
+}
+.abc-enter-to {
+  transform: translateY(0) scale(1);
+}
+.abc-leave {
+  transform: translateY(0) scale(1);
+}
+.abc-leave-active {
+  transition: all ease-in-out 1.2s;
+}
+.abc-leave-to {
+  transform: translateY(-100%) scale(0.7);
+}
+</style>

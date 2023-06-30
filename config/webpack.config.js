@@ -28,9 +28,14 @@ module.exports = {
         ],
       },
       {
-        test: /\.(woff | eot | ttf | otf | svg)$/,
+        test: /\.(woff | eot | ttf | otf | svg )$/,
         type: 'asset/resource',
       },
+      
+      {  test:/\.jpg$/,//正则验证文件的格式
+        type:"asset/resource" //发送一个单独的文件并导出URL
+      },
+    
       {
         test: /\.vue$/,
         loader: 'vue-loader'

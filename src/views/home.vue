@@ -1,60 +1,79 @@
 <template>
-  <div
-    class="w-[100vw] overflow-hidden bg-[#f1faff]"
-    :style="{ height: `${drawerVisible ? '100vh' : ''}` }"
-  >
-    <!-- 头部搜索框 -->
-    <head-view></head-view>
-    <!-- 轮播图 -->
-    <banner-view :banners="banners"></banner-view>
-    <!-- 菜单 -->
-    <menu-view :menulist="menulist"></menu-view>
-    <!-- 推荐歌单 -->
-    <command-song
-      :result="result"
-      @update-message="updatemessage"
-    ></command-song>
+  <div :class="{ dark: switch_toggle }">
+    <div
+      class="w-[100vw] overflow-hidden bg-[#f1faff] dark:bg-[#151515] dark:text-[#151515]"
+    >
+      <!-- 头部搜索框 -->
+      <switch-view :value.sync="switch_toggle"></switch-view>
+      <!-- <switch-view
+        :value.sync="switch_toggle"
+        @change_toggle="switch_toggle = !switch_toggle"
+      ></switch-view> -->
+      <!-- <switch-view :value.sync="switch_toggle"></switch-view> -->
+      <head-view @update-message="updateheadermessage"></head-view>
+      <!-- 轮播图 -->
+      <banner-view :banners="banners"></banner-view>
+      <!-- 菜单 -->
+      <menu-view :menulist="menulist"></menu-view>
+      <!-- 推荐歌单 -->
+      <command-song
+        :result="result"
+        :result_banner="result_banner"
+        :visible="visible1"
+        :current="current"
+        @update-message="updatemessage"
+        @express_msg="express_msg"
+      ></command-song>
 
-    <!-- 新歌新碟\数字专辑 -->
-    <new-song :topsong="topsong" @update-message="updatemessage"></new-song>
-    <!-- 排行榜 -->
-    <charts-view :blocks="blocks" @update-message="updatemessage"></charts-view>
-    <!-- 音乐日历 -->
-    <calendar-view
-      :Calendar="Calendar"
-      @update-message="updatemessage"
-    ></calendar-view>
-
-    <drawer-view :visible="drawerVisible">
-      <template #header>
-        <div
-          slot="header"
-          class="w-[90%] flex justify-between items-center my-3 mx-auto"
-        >
-          <p class="text-base">{{ title }}</p>
-          <Icon
-            color="#ccc"
-            icon="bi:x-circle"
-            style="font-size: 25px"
-            @click.native.stop="drawerVisible = !drawerVisible"
-          />
-        </div>
-      </template>
-      <div style="font-size: 20px">
-        <div class="flex my-4">
-          <Icon icon="heroicons:hand-thumb-up" class="text-3xl mx-3" />
-          <div>优先推荐</div>
-        </div>
-        <div class="flex my-4">
-          <Icon icon="basil:heart-off-outline" class="text-3xl mx-3" />
-          <div>减少推荐</div>
-        </div>
-        <div class="flex my-4">
-          <Icon icon="mingcute:more-4-line" class="text-3xl mx-3" />
-          <div>更多内容</div>
-        </div>
+      <!-- 新歌新碟\数字专辑 -->
+      <new-song :topsong="topsong" @update-message="updatemessage"></new-song>
+      <!-- 排行榜 -->
+      <charts-view
+        :blocks="blocks"
+        @update-message="updatemessage"
+      ></charts-view>
+      <!-- 音乐日历 -->
+      <calendar-view
+        :Calendar="Calendar"
+        @update-message="updatemessage"
+      ></calendar-view>
+      <!-- :messagfun_datae.sync="[parentMessage1, parentMessage2]" -->
+      <drawer-view
+        :visible.sync="drawerVisible"
+        :visible1.sync="leftvisible"
+        @fun_data="fun_data"
+      >
+        <template #header>
+          <div
+            slot="header"
+            class="w-[90%] flex justify-between items-center my-3 mx-auto"
+          >
+            <p class="text-base">{{ title }}</p>
+            <Icon
+              color="#ccc"
+              icon="bi:x-circle"
+              style="font-size: 25px"
+              @click.native.stop="drawerVisible = !drawerVisible"
+            />
+          </div>
+        </template>
+      </drawer-view>
+      <!-- <button @click="visible = !visible">点击</button> -->
+      <div class="w-[200px] h-[200px] border-[1px] overflow-hidden relative">
+        <!-- <transition name="abc">
+          <div
+            v-if="visible"
+            class="w-[200px] h-[200px] bg-orange-600 absolute top-0 left-0"
+          ></div>
+        </transition>
+        <transition name="abc">
+          <div
+            v-if="!visible"
+            class="w-[200px] h-[200px] bg-teal-400 absolute top-0 left-0"
+          ></div>
+        </transition> -->
       </div>
-    </drawer-view>
+    </div>
   </div>
 </template>
 <script>
@@ -84,12 +103,18 @@ export default {
     return {
       menulist: [], //菜单
       banners: [], //轮播图
-      result: [], //推荐音乐
+      result: [], //推荐歌单
+      result_banner: [], //推荐歌单轮播图
       topsong: [], //新歌新碟\数字专辑
       blocks: [], //排行榜
       Calendar: [], //音乐日历
       drawerVisible: false, //最下面过渡
+      leftvisible: false,
+      visible: false, //最左边过渡
+      visible1: false, //轮播图
+      current: 0, //默认第一张图片
       title: '',
+      switch_toggle: false, //switch
     };
   },
   methods: {
@@ -97,26 +122,42 @@ export default {
       this.drawerVisible = !this.drawerVisible;
       this.title = payload;
     },
+    updateheadermessage() {
+      // console.log(123);
+      this.leftvisible = !this.leftvisible;
+    },
+    fun_data() {
+      this.leftvisible = !this.leftvisible;
+    },
+    express_msg() {
+      this.visible1 = !this.visible1;
+      this.current++;
+      if (this.current == this.result_banner.resources.length) {
+        this.current = 0;
+      }
+    },
   },
   created() {
     BlockPage().then((res) => {
       this.banners = res.data.data.blocks[0].extInfo.banners;
-      this.topsong = res.data.data.blocks[5].creatives;
-      this.blocks = res.data.data.blocks[3].creatives;
-      console.log(res.data.data.blocks[5].creatives);
+      this.topsong = res.data.data.blocks[5].creatives; //新歌新碟
+      this.blocks = res.data.data.blocks[3].creatives; //
+      this.result = res.data.data.blocks[1].creatives.splice(1); //推荐歌单
+      this.result_banner = res.data.data.blocks[1].creatives[0];
+      console.log(this.result_banner);
     });
     DragonBall().then((res) => {
       this.menulist = res.data.data;
     });
-    Personalized().then((res) => {
-      this.result = res.data.result;
-    });
+    // Personalized().then((res) => {
+    //   this.result = res.data.result;
+    // });
     Calendar().then((res) => {
-      let Calendar1 = res.data.data.calendarEvents;
-      let Calendar = Calendar1.filter((item, index, arr) => {
-        return index < 2;
-      });
-      this.Calendar = Calendar;
+      this.Calendar = res.data.data.calendarEvents;
+      // let Calendar = Calendar1.filter((item, index, arr) => {
+      //   return index < 2;
+      // });
+      // this.Calendar = Calendar;
     });
   },
 };
@@ -160,11 +201,11 @@ input::placeholder {
 .red-image {
   filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='colorize'><feColorMatrix type='matrix' values='1 0 0 0 0.698 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter></svg>#colorize");
 }
-.over {
+/* .over {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */
 </style>

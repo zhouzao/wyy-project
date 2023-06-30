@@ -48,11 +48,7 @@
               class="font-bold"
               :style="{
                 color: `${
-                  index + 1 == 1
-                    ? '#ca952a'
-                    : index + 1 == 2
-                    ? '#757ea0'
-                    : '#be7444'
+                  index == 0 ? '#ca952a' : index == 1 ? '#757ea0' : '#be7444'
                 }`,
               }"
               >{{ index + 1 }}</span
