@@ -165,12 +165,12 @@ export default {
     this.init1();
   },
   created() {
-    // this.timer = setInterval(() => {
-    //   this.current++;
-    //   if (this.current == 3) {
-    //     this.current = 0;
-    //   }
-    // }, 4000);
+    this.timer = setInterval(() => {
+      this.current++;
+      if (this.current == 3) {
+        this.current = 0;
+      }
+    }, 4000);
   },
 };
 </script>
