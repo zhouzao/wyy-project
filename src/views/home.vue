@@ -35,6 +35,10 @@
         @update-message="updatemessage"
         :chartswitch="switch_toggle"
       ></charts-view>
+      <topic-view
+        :banner="banners"
+        @update-message="updatemessage"
+      ></topic-view>
       <!-- 音乐日历 -->
       <calendar-view
         :Calendar="Calendar"
@@ -76,7 +80,7 @@ import CommandSong from '@/components/CommandSong.vue';
 import NewSong from '@/components/NewSong.vue';
 import ChartsView from '@/components/ChartsView.vue';
 import CalendarView from '@/components/CalendarView.vue';
-
+import TopicView from '@/components/TopicView.vue';
 export default {
   name: 'home',
   components: {
@@ -88,6 +92,7 @@ export default {
     NewSong,
     ChartsView,
     CalendarView,
+    TopicView,
   },
   data() {
     return {

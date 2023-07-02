@@ -47,15 +47,17 @@
                 <span>
                   <Icon icon="pepicons-pencil:line-x" />
                 </span>
-                <span
-                  v-for="(item2, index) in item1.resourceExtInfo.artists"
-                  :key="item2.id"
-                  >{{ item2.name }}
+                <div class="w-[164px] overflow-hidden line-clamp-1">
                   <span
-                    v-if="index !== item1.resourceExtInfo.artists.length - 1"
-                    >/</span
-                  >
-                </span>
+                    v-for="(item2, index) in item1.resourceExtInfo.artists"
+                    :key="item2.id"
+                    >{{ item2.name }}
+                    <span
+                      v-if="index !== item1.resourceExtInfo.artists.length - 1"
+                      >/</span
+                    >
+                  </span>
+                </div>
               </div>
             </div>
           </li>
