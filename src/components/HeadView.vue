@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     change() {
-      console.log(123);
       this.$emit('update-message');
     },
   },

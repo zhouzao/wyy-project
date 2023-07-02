@@ -25,7 +25,9 @@
     <div ref="scroll1" class="w-[100%] overflow-hidden">
       <!-- <button @click="express">点击</button> -->
       <ul class="flex" style="width: 780px; justify-content: space-around">
-        <li class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px]">
+        <li
+          class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px] dark:border-[#25272e]"
+        >
           <div class="w-[120px] h-[120px] relative overflow-hidden">
             <transition
               name="abc"
@@ -60,7 +62,7 @@
         <li
           v-for="item in result"
           :key="item.id"
-          class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px]"
+          class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px] dark:border-[#25272e]"
         >
           <div class="relative">
             <img
