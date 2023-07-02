@@ -1,21 +1,38 @@
 <template>
-  <div>
+  <div
+    :class="{ dark: calendar_switch }"
+    class="py-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e]"
+  >
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <h3 class="text-xl font-bold my-3 ml-3" ref="command">音乐日历</h3>
-        <div class="flex items-center text-base ml-2 bg-[#eeeeee] rounded-2xl">
-          <div>今日{{ Calendar.length }}条</div>
-          <Icon icon="icon-park:right" class="text-base" />
+        <h3
+          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          ref="command"
+        >
+          音乐日历
+        </h3>
+        <div
+          class="flex items-center text-base ml-2 bg-[#ccc] rounded-2xl dark:bg-[#25272e]"
+        >
+          <div class="text-[#374d5b] dark:text-[#ffffff]">
+            今日{{ Calendar.length }}条
+          </div>
+          <Icon
+            icon="iconamoon:arrow-right-2-duotone"
+            class="text-[#374d5b] dark:text-[#ffffff] text-[25px]"
+          />
         </div>
       </div>
       <Icon
         icon="iconamoon:menu-kebab-vertical-bold"
-        class="text-2xl"
+        class="text-2xl dark:text-[#ffffff]"
         @click.native.capture="calendar"
       />
     </div>
     <div>
-      <ul class="w-[95%] m-auto overflow-hidden bg-[#ffffff]">
+      <ul
+        class="w-[95%] m-auto overflow-hidden bg-[#ffffff] rounded-2xl dark:bg-[#25272e]"
+      >
         <li
           v-for="(item, index) in Calendar_filter"
           :key="item.id"
@@ -46,7 +63,9 @@
                 >{{ item.tag }}</span
               >
             </div>
-            <div class="my-3">{{ item.title }}</div>
+            <div class="my-3 text-[#374d5b] dark:text-[#ffffff]">
+              {{ item.title }}
+            </div>
           </div>
           <img
             :src="item.imgUrl"
@@ -62,7 +81,7 @@
 import { Icon } from '@iconify/vue2';
 export default {
   name: 'CalendarView',
-  props: ['Calendar'],
+  props: ['Calendar', 'calendar_switch'],
   components: {
     Icon,
   },

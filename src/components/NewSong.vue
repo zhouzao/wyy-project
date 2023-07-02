@@ -1,15 +1,24 @@
 <template>
-  <div>
+  <div
+    :class="{ dark: switchsong }"
+    class="py-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e]"
+  >
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <h3 class="text-xl font-bold my-3 ml-3" ref="command">
+        <h3
+          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          ref="command"
+        >
           新歌新碟\数字专辑
         </h3>
-        <Icon icon="icon-park:right" class="text-2xl" />
+        <Icon
+          icon="iconamoon:arrow-right-2-duotone"
+          class="text-[#374d5b] dark:text-[#ffffff] text-[25px]"
+        />
       </div>
       <Icon
         icon="iconamoon:menu-kebab-vertical-bold"
-        class="text-2xl"
+        class="text-2xl dark:text-[#ffffff]"
         @click.native="newsong"
       />
     </div>
@@ -26,14 +35,13 @@
               alt=""
               class="w-[70px] h-[70px] rounded-2xl"
             />
-            <div class="ml-2">
-              <div class="font-bold">
+            <div class="ml-2 text-[black] dark:text-[#ffffff]">
+              <div class="font-bold text-[14px]">
                 {{ item1.uiElement.mainTitle.title }}
               </div>
-              <div class="flex items-center my-3 text-[14px]">
-                <span class="red_title"></span>
+              <div class="flex items-center text-[14px]">
                 <span
-                  class="w-[96px] text-ellipsis overflow-hidden whitespace-nowrap inline-block ml-2"
+                  class="w-[96px] text-ellipsis overflow-hidden whitespace-nowrap inline-block"
                   >{{ item1.uiElement.subTitle.title }}</span
                 >
                 <span>
@@ -62,7 +70,7 @@ import { Icon } from '@iconify/vue2';
 import BScroll from '@better-scroll/core';
 export default {
   name: 'NewSong',
-  props: ['topsong'],
+  props: ['topsong', 'switchsong'],
   components: {
     Icon,
   },

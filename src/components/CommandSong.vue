@@ -1,21 +1,32 @@
 <template>
-  <div>
+  <div
+    :class="{ dark: result_switch }"
+    class="py-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e]"
+  >
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <h3 class="text-xl font-bold my-3 ml-3" ref="command">推荐歌单</h3>
-        <Icon icon="icon-park:right" class="text-2xl" />
+        <h3
+          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          ref="command"
+        >
+          推荐歌单
+        </h3>
+        <Icon
+          icon="iconamoon:arrow-right-2-duotone"
+          class="text-[#374d5b] dark:text-[#ffffff] text-[25px]"
+        />
       </div>
       <Icon
         icon="iconamoon:menu-kebab-vertical-bold"
-        class="text-2xl"
+        class="text-2xl dark:text-[#ffffff]"
         @click.native="change"
       />
     </div>
-    <div ref="scroll1" class="w-[100%] overflow-hidden relative">
-      <button @click="express">点击</button>
+    <div ref="scroll1" class="w-[100%] overflow-hidden">
+      <!-- <button @click="express">点击</button> -->
       <ul class="flex" style="width: 780px; justify-content: space-around">
-        <li class="w-[120px]">
-          <div class="w-[120px] h-[170px] relative overflow-hidden">
+        <li class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px]">
+          <div class="w-[120px] h-[120px] relative overflow-hidden">
             <transition
               name="abc"
               v-for="(item, index) in result_banner.resources"
@@ -29,21 +40,28 @@
                   alt=""
                   class="w-[120px] h-[120px] rounded-2xl"
                 />
-                <div
-                  class="text-[15px] h-[50px] line-clamp-2"
-                  v-if="index == current"
-                >
-                  {{
-                    result_banner.resources[current].uiElement.mainTitle.title
-                  }}
-                </div>
+                <Icon
+                  icon="iconoir:infinite"
+                  class="absolute right-1 top-0 text-[30px] text-[#ffffff]"
+                />
               </div>
-              <!-- v-if="index == current" -->
             </transition>
           </div>
+          <div
+            class="text-[14px] h-[45px] line-clamp-2 overflow-hidden text-[#3E4759] dark:text-[#ffffff]"
+            v-if="result_banner"
+          >
+            {{ result_banner.resources[current].uiElement.mainTitle.title }}
+            <!-- {{ 123 }} -->
+          </div>
         </li>
-
-        <li v-for="item in result" :key="item.id" class="w-[120px]">
+        <!-- border-top: 5px solid #ccc; -->
+        <!-- border-radius: 20px 20px 0 0; -->
+        <li
+          v-for="item in result"
+          :key="item.id"
+          class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px]"
+        >
           <div class="relative">
             <img
               :src="item.resources[0].uiElement.image.imageUrl"
@@ -65,28 +83,35 @@
                   />
                 </svg>
               </span>
-              <span class="text-white">{{
-                parseInt(
-                  item.resources[0].resourceExtInfo.playCount / 10000
-                ).toFixed(1) + '万'
-              }}</span>
-            </div>
-            <div class="absolute bottom-0 right-1">
-              <svg
-                color="white"
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
+              <span
+                class="text-white"
+                v-if="
+                  item.resources[0].resourceExtInfo.playCount >= 10000 &&
+                  item.resources[0].resourceExtInfo.playCount < 100000000
+                "
+                >{{
+                  parseInt(
+                    item.resources[0].resourceExtInfo.playCount / 10000
+                  ).toFixed(1) + '万'
+                }}</span
               >
-                <path
-                  fill="currentColor"
-                  d="M9.38 4.677a1.25 1.25 0 0 0-1.88 1.08v16.488a1.25 1.25 0 0 0 1.88 1.079l14.698-8.59a.85.85 0 0 0 0-1.467L9.381 4.677ZM6 5.757c0-2.124 2.304-3.447 4.138-2.375l14.697 8.59c1.552.907 1.552 3.15 0 4.057l-14.697 8.59C8.304 25.691 6 24.369 6 22.245V5.756Z"
-                />
-              </svg>
+              <span
+                class="text-white"
+                v-if="item.resources[0].resourceExtInfo.playCount >= 100000000"
+                >{{
+                  parseInt(
+                    item.resources[0].resourceExtInfo.playCount / 100000000
+                  ).toFixed(1) + '亿'
+                }}</span
+              >
+            </div>
+            <div class="absolute bottom-2 right-2">
+              <Icon icon="fe:play" class="w-[28px] h-[28px] text-[#fff]" />
             </div>
           </div>
-          <div class="text-[15px] h-[50px] line-clamp-2">
+          <div
+            class="text-[15px] h-[45px] line-clamp-2 text-[#3E4759] dark:text-[#ffffff]"
+          >
             {{ item.resources[0].uiElement.mainTitle.title }}
           </div>
         </li>
@@ -102,12 +127,18 @@ export default {
     Icon,
   },
   name: 'CommandSong',
-  props: ['result', 'result_banner', 'visible', 'current'],
+  props: ['result', 'result_banner', 'result_switch'],
   data() {
     return {
       // message: false,
+      // visible1: false, //轮播图
+      current: 0, //默认第一张图片
+      // textdata: [],
+      index: 0,
+      timer: null,
     };
   },
+
   methods: {
     init1() {
       this.scroll1 = new BScroll(this.$refs.scroll1, {
@@ -127,12 +158,17 @@ export default {
       // this.message = !this.message;
       this.$emit('update-message', this.$refs.command.innerHTML);
     },
-    express() {
-      this.$emit('express_msg');
-    },
   },
   mounted() {
     this.init1();
+  },
+  created() {
+    // this.timer = setInterval(() => {
+    //   this.current++;
+    //   if (this.current == 3) {
+    //     this.current = 0;
+    //   }
+    // }, 4000);
   },
 };
 </script>

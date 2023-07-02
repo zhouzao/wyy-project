@@ -1,13 +1,25 @@
 <template>
-  <div>
+  <div
+    :class="{ dark: chartswitch }"
+    class="py-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e]"
+  >
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <h3 class="text-xl font-bold my-3 ml-3" ref="command">排行榜</h3>
-        <Icon icon="icon-park:right" class="text-2xl" />
+        <h3
+          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          ref="command"
+        >
+          排行榜
+        </h3>
+
+        <Icon
+          icon="iconamoon:arrow-right-2-duotone"
+          class="text-[#374d5b] dark:text-[#ffffff] text-2xl"
+        />
       </div>
       <Icon
         icon="iconamoon:menu-kebab-vertical-bold"
-        class="text-2xl"
+        class="text-2xl dark:text-[#ffffff]"
         @click.native="chars"
       />
     </div>
@@ -16,16 +28,22 @@
         <ul
           v-for="item in blocks"
           :key="item.id"
-          class="w-[100%] ml-5 bg-[#ffffff]"
+          class="w-[100%] ml-5 bg-[#ffffff] rounded-2xl dark:bg-[#25272e]"
         >
           <div class="flex items-center justify-between w-[90%] mx-auto">
-            <div class="flex items-center">
-              <h3 style="font-size: 20px; font-weight: bold">
+            <div class="flex items-center mt-2">
+              <h3
+                style="font-size: 20px; font-weight: bold"
+                class="text-[#374d5b] dark:text-[#ffffff]"
+              >
                 {{ item.uiElement.mainTitle.title }}
               </h3>
-              <Icon icon="icon-park:right" font-size="25px" />
+              <Icon
+                icon="iconamoon:arrow-right-2-duotone"
+                class="text-[#374d5b] dark:text-[#ffffff] text-[25px]"
+              />
             </div>
-            <div>
+            <div class="text-[#ccc]">
               {{ item.uiElement.mainTitle.titleDesc }}
             </div>
           </div>
@@ -38,7 +56,7 @@
               :src="
                 item1.resourceExtInfo
                   ? item1.resourceExtInfo.songData.album.blurPicUrl
-                  : ''
+                  : item1.uiElement.image.imageUrl
               "
               alt=""
               style="width: 70px; height: 70px; border-radius: 15px"
@@ -53,14 +71,14 @@
               }"
               >{{ index + 1 }}</span
             >
-            <div>
+            <div class="text-[#374d5b] dark:text-[#ffffff]">
               <div
-                class="text-ellipsis overflow-hidden whitespace-nowrap w-[164px]"
+                class="text-ellipsis overflow-hidden whitespace-nowrap w-[164px] text-[14px]"
               >
                 {{
                   item1.resourceExtInfo
                     ? item1.resourceExtInfo.songData.name
-                    : ''
+                    : item1.uiElement.mainTitle.title
                 }}
               </div>
               <div
@@ -94,7 +112,8 @@ import { Icon } from '@iconify/vue2';
 import BScroll from '@better-scroll/core';
 export default {
   name: 'ChartsView',
-  props: ['blocks'],
+  props: ['blocks', 'value', 'chartswitch'],
+
   components: {
     Icon,
   },

@@ -1,47 +1,52 @@
 <template>
   <div :class="{ dark: switch_toggle }">
     <div
-      class="w-[100vw] overflow-hidden bg-[#f1faff] dark:bg-[#151515] dark:text-[#151515]"
+      class="w-[100vw] overflow-hidden bg-[#f1f1f1] dark:bg-[#151515] dark:text-[#151515]"
+      :style="{ height: `${leftvisible ? '1745px' : ''}` }"
     >
       <!-- 头部搜索框 -->
-      <switch-view :value.sync="switch_toggle"></switch-view>
-      <!-- <switch-view
-        :value.sync="switch_toggle"
-        @change_toggle="switch_toggle = !switch_toggle"
-      ></switch-view> -->
+
       <!-- <switch-view :value.sync="switch_toggle"></switch-view> -->
-      <head-view @update-message="updateheadermessage"></head-view>
+      <head-view
+        @update-message="updateheadermessage"
+        :switchVlaue="switch_toggle"
+      ></head-view>
       <!-- 轮播图 -->
       <banner-view :banners="banners"></banner-view>
       <!-- 菜单 -->
-      <menu-view :menulist="menulist"></menu-view>
+      <menu-view :menulist="menulist" :switch_menu="switch_toggle"></menu-view>
       <!-- 推荐歌单 -->
       <command-song
         :result="result"
         :result_banner="result_banner"
-        :visible="visible1"
-        :current="current"
         @update-message="updatemessage"
-        @express_msg="express_msg"
+        :result_switch="switch_toggle"
       ></command-song>
 
       <!-- 新歌新碟\数字专辑 -->
-      <new-song :topsong="topsong" @update-message="updatemessage"></new-song>
+      <new-song
+        :topsong="topsong"
+        @update-message="updatemessage"
+        :switchsong="switch_toggle"
+      ></new-song>
       <!-- 排行榜 -->
       <charts-view
         :blocks="blocks"
         @update-message="updatemessage"
+        :chartswitch="switch_toggle"
       ></charts-view>
       <!-- 音乐日历 -->
       <calendar-view
         :Calendar="Calendar"
         @update-message="updatemessage"
+        :calendar_switch="switch_toggle"
       ></calendar-view>
       <!-- :messagfun_datae.sync="[parentMessage1, parentMessage2]" -->
       <drawer-view
         :visible.sync="drawerVisible"
         :visible1.sync="leftvisible"
         @fun_data="fun_data"
+        @change_switch="change_switch"
       >
         <template #header>
           <div
@@ -58,21 +63,6 @@
           </div>
         </template>
       </drawer-view>
-      <!-- <button @click="visible = !visible">点击</button> -->
-      <div class="w-[200px] h-[200px] border-[1px] overflow-hidden relative">
-        <!-- <transition name="abc">
-          <div
-            v-if="visible"
-            class="w-[200px] h-[200px] bg-orange-600 absolute top-0 left-0"
-          ></div>
-        </transition>
-        <transition name="abc">
-          <div
-            v-if="!visible"
-            class="w-[200px] h-[200px] bg-teal-400 absolute top-0 left-0"
-          ></div>
-        </transition> -->
-      </div>
     </div>
   </div>
 </template>
@@ -104,17 +94,15 @@ export default {
       menulist: [], //菜单
       banners: [], //轮播图
       result: [], //推荐歌单
-      result_banner: [], //推荐歌单轮播图
+      result_banner: '', //推荐歌单轮播图
       topsong: [], //新歌新碟\数字专辑
       blocks: [], //排行榜
       Calendar: [], //音乐日历
       drawerVisible: false, //最下面过渡
       leftvisible: false,
       visible: false, //最左边过渡
-      visible1: false, //轮播图
-      current: 0, //默认第一张图片
+      switch_toggle: false,
       title: '',
-      switch_toggle: false, //switch
     };
   },
   methods: {
@@ -129,12 +117,8 @@ export default {
     fun_data() {
       this.leftvisible = !this.leftvisible;
     },
-    express_msg() {
-      this.visible1 = !this.visible1;
-      this.current++;
-      if (this.current == this.result_banner.resources.length) {
-        this.current = 0;
-      }
+    change_switch(payload) {
+      this.switch_toggle = payload;
     },
   },
   created() {
@@ -144,7 +128,7 @@ export default {
       this.blocks = res.data.data.blocks[3].creatives; //
       this.result = res.data.data.blocks[1].creatives.splice(1); //推荐歌单
       this.result_banner = res.data.data.blocks[1].creatives[0];
-      console.log(this.result_banner);
+      console.log(this.blocks);
     });
     DragonBall().then((res) => {
       this.menulist = res.data.data;
@@ -169,19 +153,9 @@ export default {
 }
 
 input::placeholder {
-  padding-left: 50px;
+  padding-left: 45px;
 }
-/* 轮播图 */
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  text-align: center;
-  background-color: #39a9ed;
-}
-.van-swipe__track {
-  display: flex;
-}
+
 .custom-indicator {
   position: absolute;
   right: 5px;
@@ -201,11 +175,4 @@ input::placeholder {
 .red-image {
   filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='colorize'><feColorMatrix type='matrix' values='1 0 0 0 0.698 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter></svg>#colorize");
 }
-/* .over {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
 </style>

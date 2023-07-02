@@ -1,11 +1,11 @@
 <template>
   <div
-    class="w-[50px] h-[30px] rounded-[15px]"
-    :class="`${value ? 'bg-red-400' : 'bg-black'}`"
+    class="w-[35px] h-[20px] rounded-[15px]"
+    :class="`${value ? 'bg-red-400' : 'bg-[#ccc]'}`"
     @click="toggle"
   >
     <div
-      class="w-[30px] h-[30px] rounded-[15px] bg-white"
+      class="w-[20px] h-[20px] rounded-[15px] bg-white"
       :class="`${value ? 'translate-x-[20px]' : 'translate-x-0'}`"
     ></div>
   </div>
@@ -18,10 +18,13 @@ export default {
       require: true,
     },
   },
+  data() {
+    return {};
+  },
   methods: {
     toggle() {
-      this.$emit('update:value', !this.value);
-      //   this.$emit('change_toggle');
+      //   this.$emit('update:value', !this.value);
+      this.$emit('change_toggle', !this.value);
     },
   },
 };

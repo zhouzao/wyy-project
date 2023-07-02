@@ -1,5 +1,9 @@
 <template>
-  <div class="w-[100%] overflow-hidden relative my-3" ref="scroll">
+  <div
+    class="w-[100%] overflow-hidden relative my-3"
+    ref="scroll"
+    :class="{ dark: switch_menu }"
+  >
     <ul class="flex w-[780px] text-center">
       <li v-for="item in menulist" :key="item.id" class="w-[20%]">
         <div class="relative">
@@ -7,11 +11,12 @@
           <div
             v-if="item.name == '每日推荐'"
             class="absolute top-7 left-7 text-white"
+            :class="`${day < 10 ? 'left-[33px]' : ''}`"
           >
             {{ day }}
           </div>
         </div>
-        <div>{{ item.name }}</div>
+        <div class="dark:text-[#fffffff] text-[#666F7D]">{{ item.name }}</div>
       </li>
     </ul>
   </div>
@@ -20,7 +25,7 @@
 import BScroll from '@better-scroll/core';
 export default {
   name: 'MenuList',
-  props: ['menulist'],
+  props: ['menulist', 'switch_menu'],
   data() {
     return {
       day: '',
