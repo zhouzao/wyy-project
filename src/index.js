@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import './index.css';
-import homeView from "./views/home.vue"
+import router from '@/router/index';
+import App from "@/App.vue"
+// import homeView from "./views/home.vue"
 // import indexView from "./views/index.vue"
 import { Toast } from 'vant';
 import { Swipe, SwipeItem } from 'vant';
@@ -17,6 +19,6 @@ Vue.use(SwipeItem);
 const vm = new Vue({
   // 挂载节点
   el: '#app',
-  render: (h) => h(homeView),
-
+  router,
+  render: (h) => h(App),
 });

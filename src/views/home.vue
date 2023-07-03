@@ -38,6 +38,7 @@
       <topic-view
         :banner="banners"
         @update-message="updatemessage"
+        :result_switch="switch_toggle"
       ></topic-view>
       <!-- 音乐日历 -->
       <calendar-view

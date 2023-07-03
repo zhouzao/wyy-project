@@ -1,11 +1,14 @@
 <template>
   <!-- :class="{ dark: result_switch }" -->
   <!-- class="py-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e]" -->
-  <div>
+  <div
+    :class="{ dark: result_switch }"
+    class="pt-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e]"
+  >
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <h3
-          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          class="text-xl my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
           ref="command"
         >
           热门话题
@@ -53,12 +56,14 @@
                   />
                   <span class="absolute top-0 left-2 text-[#ccc]">#</span>
                 </div>
-                <div class="text-[#ffffff]">{{ item.title }}</div>
+                <div class="text-[#ffffff] text-[16px]">{{ item.title }}</div>
               </div>
-              <div class="text-[#c1b9a9]">{{ item.count }}热度</div>
+              <div class="text-[#c1b9a9] text-[14px]">{{ item.count }}热度</div>
             </div>
             <div class="mt-3">
-              <div class="w-[180px] text-[#fff] overflow-hidden line-clamp-2">
+              <div
+                class="w-[180px] text-[14px] text-[#fff] overflow-hidden line-clamp-2"
+              >
                 {{ item.content }}
               </div>
             </div>
@@ -73,7 +78,7 @@ import { Icon } from '@iconify/vue2';
 import BScroll from '@better-scroll/core';
 export default {
   name: 'TopicView',
-
+  props: ['result_switch'],
   components: {
     Icon,
   },

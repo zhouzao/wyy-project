@@ -123,7 +123,10 @@
 
                   <switch-view
                     v-if="item1.icon1 == 'switch'"
-                    class="mr-3"
+                    class="mr-[18px]"
+                    :style="{
+                      marginRight: `${switch_toggle ? '23px' : '18px'}`,
+                    }"
                     :value="switch_toggle"
                     @change_toggle="switch_fn"
                   ></switch-view>

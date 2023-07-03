@@ -19,5 +19,30 @@ let nowDate = new Date()
 let start = new Date(`${nowDate.getFullYear()}-${nowDate.getMonth()+1}-${nowDate.getDate()} 00:00:00`)
 let end = new Date(`${nowDate.getFullYear()}-${nowDate.getMonth()+1}-${nowDate.getDate()} 23:59:59`)
 export const Calendar = () =>http.get(`/calendar?startTime=${start.getTime()}&endTime=${end.getTime()}`);
-// infinite图标
+
+// 默认搜索\搜索\搜索建议
+ // 
+ export const fetchSearchDefault = () => http.get("/search/default")
+
+ export const fetchSearchResult = (params) => http.get("/search",{
+   params
+ })
+ // 
+ export const fetchSearchSuggest = (params) => http.get("/search/suggest",{
+   params
+ })
+
 // 
+// 榜单
+// (async function fn() {
+//   const res = await http.get('/toplist/detail');
+//   const playlist = await Promise.all(res.data.list.map(({id}) => http.get('aylist/detail', {params: {id}})));
+//   console.log(playlist.map(item => item.data.playlist));
+// })()
+
+// export  const res = ()=>http.get('/toplist/detail')
+// const  data = res.data.list.map((item)=>{
+//   return item.id
+// })
+
+// export const playlist =(data) => http.get('aylist/detail',{params:{id}})

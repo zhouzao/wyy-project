@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <h3
-          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          class="text-xl my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
           ref="command"
         >
           推荐歌单

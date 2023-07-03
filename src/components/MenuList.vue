@@ -6,12 +6,12 @@
   >
     <ul class="flex w-[780px] text-center">
       <li v-for="item in menulist" :key="item.id" class="w-[20%]">
-        <div class="relative">
-          <img :src="item.iconUrl" alt="" class="red-image" />
+        <div class="relative w-[17vw] h-[17vw] left-[5px]">
+          <img :src="item.iconUrl" alt="" class="red-image w-[17vw] h-[17vw]" />
           <div
             v-if="item.name == '每日推荐'"
-            class="absolute top-7 left-7 text-white"
-            :class="`${day < 10 ? 'left-[33px]' : ''}`"
+            class="absolute top-6 left-7 text-white"
+            :class="`${day < 10 ? 'left-[28px]' : ''}`"
           >
             {{ day }}
           </div>

@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <h3
-          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          class="text-xl my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
           ref="command"
         >
           排行榜
@@ -33,7 +33,7 @@
           <div class="flex items-center justify-between w-[90%] mx-auto">
             <div class="flex items-center mt-2">
               <h3
-                style="font-size: 20px; font-weight: bold"
+                style="font-size: 20px"
                 class="text-[#374d5b] dark:text-[#ffffff]"
               >
                 {{ item.uiElement.mainTitle.title }}
@@ -82,7 +82,7 @@
                 }}
               </div>
               <div
-                class="text-ellipsis overflow-hidden whitespace-nowrap w-[164px]"
+                class="text-ellipsis overflow-hidden whitespace-nowrap w-[164px] text-[13px]"
               >
                 {{
                   item1.resourceExtInfo
@@ -93,7 +93,7 @@
             </div>
             <span
               style="margin-left: 3px"
-              class="text-[red]"
+              class="text-[red] text-[13px]"
               :style="{
                 color: `${
                   item1.uiElement.labelText.text == '新晋' ? '#90d4ba' : ''

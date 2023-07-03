@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <h3
-          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          class="text-xl my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
           ref="command"
         >
           音乐日历
@@ -14,7 +14,9 @@
         <div
           class="flex items-center text-base ml-2 bg-[#ccc] rounded-2xl dark:bg-[#25272e]"
         >
-          <div class="text-[#374d5b] dark:text-[#ffffff]">
+          <div
+            class="text-[#374d5b] dark:text-[#ffffff] relative top-[0px] left-[5px]"
+          >
             今日{{ Calendar.length }}条
           </div>
           <Icon
@@ -39,7 +41,7 @@
           class="flex justify-between items-center w-[90%] my-4 m-auto"
         >
           <div
-            class="w-[75%]"
+            class="w-[75%] py-2"
             :style="{
               borderBottom: `${
                 index == Calendar_filter.length - 1 ? '' : '1px solid #ccc'

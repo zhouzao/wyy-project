@@ -20,6 +20,7 @@
           type="text"
           placeholder="春暖花开"
           class="border-solid border-2 w-[290px] h-[40px] rounded-3xl"
+          @click="search"
         />
         <Icon icon="mdi:line-scan" class="absolute right-5 top-2 text-[22px]" />
       </div>
@@ -40,6 +41,9 @@ export default {
   methods: {
     change() {
       this.$emit('update-message');
+    },
+    search() {
+      this.$router.push('/search');
     },
   },
 };

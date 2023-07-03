@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <h3
-          class="text-xl font-bold my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
+          class="text-xl my-3 ml-3 text-[#374d5b] dark:text-[#ffffff]"
           ref="command"
         >
           新歌新碟\数字专辑
@@ -24,7 +24,7 @@
     </div>
     <div class="w-[100%] overflow-hidden ml-5" ref="scroll2">
       <div class="flex w-[2800px]">
-        <ul v-for="item in topsong" :key="item.id" class="w-[350px]">
+        <ul v-for="item in topsong" :key="item.id" class="w-[340px]">
           <li
             v-for="item1 in item.resources"
             :key="item1.id"
