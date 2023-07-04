@@ -34,11 +34,12 @@ export const Calendar = () =>http.get(`/calendar?startTime=${start.getTime()}&en
 
 // 
 // 榜单
-// (async function fn() {
-//   const res = await http.get('/toplist/detail');
-//   const playlist = await Promise.all(res.data.list.map(({id}) => http.get('aylist/detail', {params: {id}})));
-//   console.log(playlist.map(item => item.data.playlist));
-// })()
+export async  function playlist() {
+  const res = await http.get('/toplist/detail');
+ const playlist =await  Promise.all(res.data.list.map(({id}) => http.get('playlist/detail', {params: {id}})));
+  // console.log(playlist.map(item => item.data.playlist));
+  return playlist
+}
 
 // export  const res = ()=>http.get('/toplist/detail')
 // const  data = res.data.list.map((item)=>{

@@ -10,8 +10,8 @@
           <img :src="item.iconUrl" alt="" class="red-image w-[17vw] h-[17vw]" />
           <div
             v-if="item.name == '每日推荐'"
-            class="absolute top-6 left-7 text-white"
-            :class="`${day < 10 ? 'left-[28px]' : ''}`"
+            class="absolute top-5 left-7 text-white"
+            :class="`${day < 10 ? 'left-[25px]' : ''}`"
           >
             {{ day }}
           </div>

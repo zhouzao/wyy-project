@@ -89,21 +89,23 @@
             </div>
 
             <ul
-              v-for="item in user_msg"
+              v-for="(item, index) in user_msg"
               :key="item.id"
               class="w-[90%] mx-auto bg-[#ffffff] mt-5 dark:bg-[#2f2f2f] dark:text-[#ffffff]"
             >
               <div
                 v-if="item.title"
-                class="dark:border-[#333] ml-4 border-b-[1px] border-[#e6e6e6] h-[36px] leading-9 text-[12px] text-[#9d9d9d]"
+                class="dark:border-[#333] pl-4 border-b-[1px] border-[#e6e6e6] h-[36px] leading-9 text-[12px] text-[#9d9d9d]"
               >
                 <span>{{ item.title }}</span>
               </div>
               <li
-                class="flex items-center justify-between ml-4 py-3"
+                class="flex items-center justify-between ml-4 py-3 border-b-[#e6e6e6] dark:border-b-[#333]"
                 :style="{
                   borderBottom: `${
-                    index1 !== item.msg1.length - 1 && !switch_toggle
+                    index1 !== item.msg1.length - 1 &&
+                    index == 0 &&
+                    !switch_toggle
                       ? '1px solid #e6e6e6'
                       : ''
                   }`,
