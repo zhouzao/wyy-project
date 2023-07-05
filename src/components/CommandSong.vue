@@ -69,6 +69,7 @@
               :src="item.resources[0].uiElement.image.imageUrl"
               alt=""
               class="w-[120px] h-[120px] rounded-2xl"
+              @click="detail(item.resources[0].resourceId)"
             />
             <div class="absolute right-1 top-0 flex">
               <span>
@@ -142,6 +143,9 @@ export default {
   },
 
   methods: {
+    detail(id) {
+      this.$router.push({ path: '/songdetail', query: { id } });
+    },
     init1() {
       this.scroll1 = new BScroll(this.$refs.scroll1, {
         scrollX: true,

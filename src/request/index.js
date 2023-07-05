@@ -36,10 +36,13 @@ export const Calendar = () =>http.get(`/calendar?startTime=${start.getTime()}&en
 // 榜单
 export async  function playlist() {
   const res = await http.get('/toplist/detail');
- const playlist =await  Promise.all(res.data.list.map(({id}) => http.get('playlist/detail', {params: {id}})));
+ const playlist =await  Promise.all(res.data.list.map(({id}) => http.get('/playlist/detail', {params: {id}})));
   // console.log(playlist.map(item => item.data.playlist));
   return playlist
 }
+
+// 歌单详情
+export const songdetail = (params) => http.get(`/playlist/detail?id=${params}`)
 
 // export  const res = ()=>http.get('/toplist/detail')
 // const  data = res.data.list.map((item)=>{

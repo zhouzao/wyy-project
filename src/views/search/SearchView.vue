@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#eeeeee]">
+  <div class="bg-[#eeeeee] w-screen h-screen">
     <div class="overflow-hidden">
       <div class="flex items-center w-[90vw] mx-auto my-3">
         <Icon icon="carbon:arrow-left" class="text-[30px]" />
@@ -50,8 +50,15 @@
     <!-- 搜索的数据 -->
     <div>
       <ul>
-        <li v-for="item in search_song" :key="item.id">
-          {{ item.name }}
+        <li
+          v-for="item in search_song"
+          :key="item.id"
+          class="flex items-center h-[50px]"
+        >
+          <Icon icon="ion:search-outline" class="ml-5" />
+          <div>
+            {{ item.name }}
+          </div>
         </li>
       </ul>
     </div>
@@ -141,7 +148,7 @@ export default {
           text: '识曲',
         },
       ],
-      like: ['可不可以', '张杰', '张碧晨', '消失的她', '薛子谦'],
+      like: ['陈奕迅', '林俊杰', '薛子谦'],
       value: '',
       defaultSearch: {}, //默认搜索
       search_song: [],
