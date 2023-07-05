@@ -41,9 +41,11 @@ export async  function playlist() {
   return playlist
 }
 
-// 歌单详情
-export const songdetail = (params) => http.get(`/playlist/detail?id=${params}`)
+// 歌单头部详情
+export const songdetail = (id) => http.get(`/playlist/detail`,{params:{id}})
 
+// 歌单所有详情
+export const trackAll = (id) => http.get(`/playlist/track/all`,{params:{id}})
 // export  const res = ()=>http.get('/toplist/detail')
 // const  data = res.data.list.map((item)=>{
 //   return item.id

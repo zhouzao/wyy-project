@@ -62,7 +62,7 @@
         </div>
         <div class="text-[#94a8b9] text-[3vw] flex items-center my-[4vw]">
           <div class="w-[86vw] overflow-hidden line-clamp-1 text-[3vw]">
-            {{ songdetail.creator.signature }}
+            {{ songdetail.creator.description }}
           </div>
           <Icon
             icon="mingcute:right-line"
@@ -72,19 +72,19 @@
         <!-- 分享 -->
         <div class="flex items-center justify-between">
           <div
-            class="w-[28vw] h-[10vw] bg-[#5b80a3] justify-center leading-[10vw] flex items-center rounded-2xl text-[#fff]"
+            class="w-[28vw] h-[10vw] bg-[#b77f7d] justify-center leading-[10vw] flex items-center rounded-2xl text-[#fff]"
           >
             <Icon icon="uil:share" />
             <div>{{ songdetail.shareCount }}</div>
           </div>
           <div
-            class="w-[28vw] h-[10vw] bg-[#5b80a3] justify-center leading-[10vw] flex items-center rounded-2xl text-[#fff]"
+            class="w-[28vw] h-[10vw] bg-[#b77f7d] justify-center leading-[10vw] flex items-center rounded-2xl text-[#fff]"
           >
             <Icon icon="eva:message-circle-outline" />
             <div>{{ songdetail.commentCount }}</div>
           </div>
           <div
-            class="w-[28vw] h-[10vw] bg-[#aa6261] justify-center leading-[10vw] flex items-center rounded-2xl text-[#fff]"
+            class="w-[28vw] h-[10vw] bg-[red] justify-center leading-[10vw] flex items-center rounded-2xl text-[#fff]"
           >
             <Icon icon="basil:add-outline" />
             <div>{{ songdetail.subscribedCount }}</div>
@@ -111,14 +111,41 @@
         </div>
         <div>
           <ul>
-            <li v-for="(item, index) in songdetail.tracks" :key="item.id">
-              <div>
-                <div>{{ index + 1 }}</div>
-                <div>
-                  <div>{{ item.name }}</div>
+            <li v-for="(item, index) in song" :key="item.id" class="mt-[5vw]">
+              <div class="flex items-center justify-between">
+                <div class="text-[#ccc]">{{ index + 1 }}</div>
+                <div class="ml-[5vw]">
+                  <div
+                    class="text-[4vw] w-[67vw] text-ellipsis overflow-hidden whitespace-nowrap"
+                  >
+                    <span>{{ item.name }}</span>
+
+                    <span v-if="item && item.tns">({{ item.tns[0] }})</span>
+                    <span v-if="item && !item.tns && item.alia[0]"
+                      >({{ item.alia[0] }})</span
+                    >
+                  </div>
+                  <div
+                    class="w-[67vw] text-[3vw] text-ellipsis overflow-hidden whitespace-nowrap"
+                  >
+                    <span></span>
+                    <span v-for="item1 in item.ar" :key="item1.id">{{
+                      item1.name
+                    }}</span>
+                    <span>-</span>
+                    <span>{{ item.al.name }}</span>
+                  </div>
+                </div>
+                <div class="mr-[7vw]">
+                  <Icon icon="jam:play-square" />
+                </div>
+                <div class="mr-[4vw]">
+                  <Icon
+                    icon="iconamoon:menu-kebab-vertical-bold"
+                    class="text-2xl text-[5vw]"
+                  />
                 </div>
               </div>
-              <div></div>
             </li>
           </ul>
         </div>
@@ -127,13 +154,14 @@
   </div>
 </template>
 <script>
-import { songdetail } from '@/request/index';
+import { songdetail, trackAll } from '@/request/index';
 import { Icon } from '@iconify/vue2';
 export default {
   components: { Icon },
   data() {
     return {
-      songdetail: {}, //歌单详情数据
+      songdetail: {}, //歌单头部详情数据
+      song: [], //歌单详情
     };
   },
   created() {
@@ -142,6 +170,11 @@ export default {
       // console.log(res);
       this.songdetail = res.data.playlist;
       console.log(this.songdetail);
+    });
+    trackAll(this.$route.query.id).then((res) => {
+      console.log(res);
+      this.song = res.data.songs;
+      console.log(this.song);
     });
   },
 };
