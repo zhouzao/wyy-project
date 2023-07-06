@@ -6,6 +6,7 @@ import App from "@/App.vue"
 // import indexView from "./views/index.vue"
 import { Toast } from 'vant';
 import { Swipe, SwipeItem } from 'vant';
+import { Sticky,Button } from 'vant';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import DrawerView from '@/components/DrawerView.vue';
@@ -16,6 +17,9 @@ dayjs.extend(relativeTime);
 Vue.prototype.dayjs = dayjs;
 Vue.use(Swipe);
 Vue.use(SwipeItem);
+Vue.use(Sticky);
+Vue.use(Button)
+
 const vm = new Vue({
   // 挂载节点
   el: '#app',

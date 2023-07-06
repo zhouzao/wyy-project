@@ -14,7 +14,10 @@
             <Icon icon="iconamoon:menu-kebab-vertical-bold" class="ml-[9vw]" />
           </div>
         </div>
-        <div class="flex items-start mt-[8vw]">
+        <!-- <van-sticky>
+          <van-button type="primary">基础用法</van-button>
+        </van-sticky> -->
+        <div class="flex items-start mt-[8vw]" v-if="!hide">
           <div>
             <img
               :src="songdetail.coverImgUrl"
@@ -30,15 +33,19 @@
                   :src="songdetail.creator.avatarUrl"
                   alt=""
                   class="w-[6vw] h-[6vw] rounded-[50%]"
+                  v-if="songdetail.creator.avatarUrl"
                 />
                 <img
                   :src="songdetail.creator.avatarDetail.identityIconUrl"
                   alt=""
                   class="absolute top-[9px] left-[14px] w-[4vw] h-[4vw] rounded-[50%]"
-                  v-if="songdetail.creator.avatarDetail.identityIconUrl"
+                  v-if="songdetail.creator.avatarDetail"
                 />
               </div>
-              <div class="ml-[5vw] text-[#b0c3da]">
+              <div
+                class="ml-[5vw] text-[#b0c3da]"
+                v-if="songdetail && songdetail.creator.nickname != ''"
+              >
                 {{ songdetail.creator.nickname }}
               </div>
               <div
@@ -59,10 +66,18 @@
               </div>
             </div>
           </div>
+          <div class="w-[5vw] h-[5vw] bg-[#ccc] rounded-[50%] mt-2">
+            <Icon
+              icon="mingcute:down-line"
+              class="relative top-[0.5vw] left-[0.5vw]"
+              @click.native="hide = !hide"
+            />
+          </div>
         </div>
+        <div v-else>123</div>
         <div class="text-[#94a8b9] text-[3vw] flex items-center my-[4vw]">
           <div class="w-[86vw] overflow-hidden line-clamp-1 text-[3vw]">
-            {{ songdetail.creator.description }}
+            {{ songdetail.description }}
           </div>
           <Icon
             icon="mingcute:right-line"
@@ -126,7 +141,7 @@
                     >
                   </div>
                   <div
-                    class="w-[67vw] text-[3vw] text-ellipsis overflow-hidden whitespace-nowrap"
+                    class="w-[60vw] text-[3vw] text-ellipsis overflow-hidden whitespace-nowrap"
                   >
                     <span></span>
                     <span v-for="item1 in item.ar" :key="item1.id">{{
@@ -137,7 +152,7 @@
                   </div>
                 </div>
                 <div class="mr-[7vw]">
-                  <Icon icon="jam:play-square" />
+                  <Icon icon="arcticons:fpt-play" />
                 </div>
                 <div class="mr-[4vw]">
                   <Icon
@@ -162,19 +177,20 @@ export default {
     return {
       songdetail: {}, //歌单头部详情数据
       song: [], //歌单详情
+      hide: false,
     };
   },
   created() {
-    console.log();
     songdetail(this.$route.query.id).then((res) => {
       // console.log(res);
       this.songdetail = res.data.playlist;
-      console.log(this.songdetail);
+      // console.log(this.songdetail);
+      // console.log(res.data.playlist.creator.avatarUrl);
     });
     trackAll(this.$route.query.id).then((res) => {
-      console.log(res);
+      // console.log(res);
       this.song = res.data.songs;
-      console.log(this.song);
+      // console.log(this.song);
     });
   },
 };

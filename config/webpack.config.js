@@ -35,10 +35,26 @@ module.exports = {
       {  test:/\.jpg$/,//正则验证文件的格式
         type:"asset/resource" //发送一个单独的文件并导出URL
       },
+      {  test:/\.png$/,//正则验证文件的格式
+        type:"asset/resource" //发送一个单独的文件并导出URL
+      },
     
       {
         test: /\.vue$/,
         loader: 'vue-loader'
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[contenthash].[ext]',
+              outputPath: 'images/',
+              publicPath: 'images/'
+            }
+          }
+        ]
       }
     ],
   },

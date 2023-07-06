@@ -3,6 +3,7 @@ import Vue from 'vue';
 import HomeView from "@/views/home.vue"
 import SearchView from "@/views/search/SearchView.vue"
 import SongDetail from "@/views/songdetail/SongDetail.vue"
+import LoginView from "@/views/login/LoginView.vue"
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes:[
@@ -23,6 +24,10 @@ const router = new VueRouter({
       path: '/songdetail',
       component: SongDetail,
     },
+    {
+      path:"/login",
+      component:LoginView
+    }
   ]
 });
 export default router;

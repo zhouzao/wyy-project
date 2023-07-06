@@ -2,7 +2,11 @@
   <div class="bg-[#eeeeee] w-screen h-screen">
     <div class="overflow-hidden">
       <div class="flex items-center w-[90vw] mx-auto my-3">
-        <Icon icon="carbon:arrow-left" class="text-[30px]" />
+        <Icon
+          icon="carbon:arrow-left"
+          class="text-[30px]"
+          @click.native="home"
+        />
         <div class="w-[288px] relative text-center">
           <input
             type="text"
@@ -160,6 +164,9 @@ export default {
   methods: {
     close() {
       this.value = '';
+    },
+    home() {
+      this.$router.push('/home');
     },
 
     searchHandler(defaultSearch) {
