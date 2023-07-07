@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div v-if="state == 803">
+    <div v-if="state == 802">
       <div class="">
         <img
           src="@/assets/success.png"
@@ -59,7 +59,13 @@
 <script>
 import fillSvg from '@/assets/logo.fill.svg';
 import { Icon } from '@iconify/vue2';
-import { getQrkey, getQrInfo, checkqr } from '@/request/index';
+import {
+  getQrkey,
+  getQrInfo,
+  checkqr,
+  getUserAccount,
+  getUserDetail,
+} from '@/request/index';
 import store from 'storejs';
 export default {
   components: { Icon },
@@ -68,6 +74,7 @@ export default {
       svg: fillSvg,
       qrcode: '',
       state: 0,
+      id: '',
     };
   },
   methods: {
@@ -78,7 +85,7 @@ export default {
       const timer = setInterval(async () => {
         const res = await checkqr(key);
         if (res.data.code == 800) {
-          alert('此二维码已过期,请刷新');
+          // alert('此二维码已过期,请刷新');
           clearInterval(timer);
           this.state = 800;
         } else if (res.data.code == 803) {
@@ -86,7 +93,18 @@ export default {
           store.set('_m_cookie', res.data.cookie);
           console.log(res);
           this.state = 803;
+          getUserAccount().then((res) => {
+            store.set('_user_', res.data);
+            console.log(res);
+            console.log(this.id);
+            this.id = res.data.account.id;
+          });
+          getUserDetail(this.id).then((res) => {
+            store.set('_userdata_', res.data);
+            console.log(res);
+          });
           this.$router.push('/home');
+
           //   store.set("_m_cookie",res.data.cookie)
         } else if (res.data.code == 802) {
           this.state = 802;

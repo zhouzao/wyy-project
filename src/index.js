@@ -12,7 +12,11 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import DrawerView from '@/components/DrawerView.vue';
 import SwitchView from "@/components/SwitchView.vue"
+import { Dialog } from 'vant';
+import 'vant/lib/index.css';
 
+// 全局注册
+Vue.use(Dialog);
 Vue.component('DrawerView', DrawerView)
 Vue.component("SwitchView",SwitchView)
 dayjs.extend(relativeTime);
@@ -22,6 +26,7 @@ Vue.use(SwipeItem);
 Vue.use(Sticky);
 Vue.use(Button)
 Vue.use(NoticeBar)
+
 const vm = new Vue({
   // 挂载节点
   el: '#app',

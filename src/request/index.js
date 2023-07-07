@@ -8,7 +8,7 @@ const http = axios.create({
 //   console.log(config)
 // })
 http.interceptors.request.use(function (config) {
-  const cookie = store.get("__m__cookie") ?? '';
+  const cookie = store.get("_m_cookie") ?? '';
   config.params = config.params || {};
   config.params.cookie = cookie;
   return config
@@ -63,4 +63,10 @@ export const trackAll = (id) => http.get(`/playlist/track/all`,{params:{id}})
   export const getQrInfo = (key,qrimg=1) =>http.get("/login/qr/create",{params:{key,qrimg}})
 
  export const checkqr = (key) =>http.get("/login/qr/check",{params:{key,timestamp:Date.now()}})
+
+//  用户信息
+export const getUserAccount = () => http.get("/user/account")
+
+// 用户详情
+export const  getUserDetail = (id) => http.get("/user/detail",{params:{uid:id}})
 

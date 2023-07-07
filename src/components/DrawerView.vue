@@ -48,12 +48,31 @@
               >
                 <div class="flex items-center">
                   <img
-                    src="../assets/user.jpg"
+                    :src="localStorage.profile.avatarUrl"
                     alt=""
                     class="w-[35px] h-[35px] rounded-[50%]"
+                    v-if="cookie"
+                    @click="user"
                   />
-                  <div class="ml-2 dark:text-[#ffffff] text-[black]">
-                    zh_zhou
+                  <img
+                    src="@/assets/user.jpg"
+                    alt=""
+                    class="w-[35px] h-[35px] rounded-[50%]"
+                    v-else
+                  />
+                  <div
+                    class="ml-2 dark:text-[#ffffff] text-[black]"
+                    v-if="cookie"
+                    @click="user"
+                  >
+                    {{ localStorage.profile.nickname }}
+                  </div>
+                  <div
+                    class="ml-2 dark:text-[#ffffff] text-[black]"
+                    v-else
+                    @click="login"
+                  >
+                    点击登录
                   </div>
                   <Icon
                     icon="iconamoon:arrow-right-2-duotone"
@@ -143,6 +162,7 @@
             </ul>
             <div
               class="dark:bg-[#2f2f2f] rounded-xl w-[90%] mx-auto my-5 bg-[#ffffff] h-[45px] text-center leading-[45px] text-[red]"
+              @click="close1"
             >
               退出登录/关闭
             </div>
@@ -159,6 +179,8 @@
 <script>
 import { Icon } from '@iconify/vue2';
 import BScroll from '@better-scroll/core';
+import { Dialog } from 'vant';
+import store from 'storejs';
 export default {
   // 单向数据流 (父级通过props传递子组件的数据,子组件没有权力修改)
   props: {
@@ -364,6 +386,8 @@ export default {
           ],
         },
       ],
+      localStorage: {},
+      cookie: '',
     };
   },
   watch: {
@@ -372,11 +396,33 @@ export default {
     },
   },
   methods: {
+    login() {
+      this.$router.push('/login');
+    },
+    user() {
+      this.$router.push('/user');
+    },
     fun(event) {
       // console.log(event);
       if (event.clientX > 320) {
         this.$emit('fun_data');
       }
+    },
+    close1() {
+      Dialog.confirm({
+        title: '标题',
+        message: '弹窗内容',
+      })
+        .then(() => {
+          const token = localStorage.getItem('_m_cookie');
+          const user = localStorage.getItem('_user_');
+          const userdata = localStorage.getItem('_userdata_');
+          localStorage.removeItem('_m_cookie');
+          localStorage.removeItem('_user_');
+          localStorage.removeItem('_userdata_');
+          this.$router.push('/login');
+        })
+        .catch(() => {});
     },
     switch_fn() {
       this.switch_toggle = !this.switch_toggle;
@@ -399,6 +445,11 @@ export default {
     mounted() {
       this.init1;
     },
+  },
+  created() {
+    this.localStorage = JSON.parse(localStorage.getItem('_user_'));
+    this.cookie = localStorage.getItem('_m_cookie');
+    console.log(this.localStorage);
   },
 };
 </script>
@@ -426,5 +477,8 @@ export default {
 .left_slide-enter-to,
 .left_slide-leave {
   transform: translateX(0%);
+}
+.van-overlay {
+  position: absolute;
 }
 </style>

@@ -87,6 +87,9 @@ export default {
   components: {
     Icon,
   },
+  data() {
+    return {};
+  },
   computed: {
     Calendar_filter() {
       return this.Calendar.filter((item, index) => {
@@ -99,6 +102,7 @@ export default {
       this.$emit('update-message', this.$refs.command.innerHTML);
     },
   },
+  created() {},
 };
 </script>
 <style scoped></style>

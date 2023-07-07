@@ -2,33 +2,22 @@
   <div class="song_detail">
     <div class="bg-[#9a5653] overflow-hidden overflow-y: scroll;" ref="scroll">
       <div class="w-[92vw] mx-auto my-[5vw]">
-        <div
-          class="flex items-center text-[7vw] text-[#ffffff] justify-between"
-        >
-          <div class="flex items-center">
-            <Icon icon="solar:arrow-left-linear" />
-            <div class="ml-[5vw] text-[5vw]">歌单</div>
-            <!-- <van-notice-bar
-              left-icon="volume-o"
-              text="无论我们能活多久"
-              crollable:true
-            /> -->
-          </div>
-          <div class="flex items-center">
-            <Icon icon="ion:search-outline" />
-            <Icon icon="iconamoon:menu-kebab-vertical-bold" class="ml-[9vw]" />
-          </div>
-        </div>
-        <van-sticky
-          class="fixed top-0 left-0 h-[10vw] overflow-hidden w-[100vw]"
-          v-if="vis"
-        >
+        <van-sticky class="bg-[#9a5653]" @scroll="change">
           <div
-            class="flex items-center text-[7vw] text-[#ffffff] justify-between"
+            class="flex items-center text-[7vw] h-[14vw] text-[#ffffff] justify-between"
           >
             <div class="flex items-center">
               <Icon icon="solar:arrow-left-linear" />
-              <div class="ml-[5vw] text-[5vw]">歌单</div>
+
+              <div class="ml-[5vw] text-[5vw]" v-if="!visible">歌单</div>
+              <div class="ml-[5vw] text-[5vw]" v-else>
+                <van-notice-bar
+                  :scrollable="true"
+                  background="#9a5653"
+                  color="#fff"
+                  :text="songdetail.name"
+                />
+              </div>
             </div>
             <div class="flex items-center">
               <Icon icon="ion:search-outline" />
@@ -40,7 +29,7 @@
           </div>
         </van-sticky>
 
-        <div class="flex items-start mt-[8vw]" v-if="!hide">
+        <div class="flex items-start mt-[3vw]" v-if="!hide">
           <div>
             <img
               :src="songdetail.coverImgUrl"
@@ -277,8 +266,10 @@
 </template>
 <script>
 import { songdetail, trackAll, BlockPage } from '@/request/index';
+import { NoticeBar } from 'vant';
 import { Icon } from '@iconify/vue2';
 import BScroll from '@better-scroll/core';
+import { Sticky } from 'vant';
 export default {
   components: { Icon },
   data() {
@@ -288,9 +279,18 @@ export default {
       hide: false,
       vis: false,
       result: [],
+      visible: false,
     };
   },
   methods: {
+    change({ scrollTop: number, isFixed: boolean }) {
+      console.log(13);
+      if (number > 50) {
+        this.visible = !this.visible;
+      } else if (number == 0) {
+        this.visible = !this.visible;
+      }
+    },
     init1() {
       // console.log(this.$refs.scroll);
       this.scroll = new BScroll(this.$refs.scroll, {
@@ -311,6 +311,9 @@ export default {
     this.init1();
   },
   created() {
+    this.$nextTick(() => {
+      console.log(this.$refs);
+    });
     BlockPage().then((res) => {
       this.result = res.data.data.blocks[1].creatives.splice(1); //推荐歌单
     });
@@ -329,3 +332,14 @@ export default {
   },
 };
 </script>
+<style>
+.van-sticky {
+  background: #9a5653;
+}
+.van-notice-bar__wrap {
+  width: 30vw;
+}
+/* .van-notice-bar {
+  background-color: #9a5653;
+} */
+</style>

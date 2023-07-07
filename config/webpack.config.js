@@ -55,7 +55,13 @@ module.exports = {
             }
           }
         ]
-      }
+      },
+      {
+        test: /\.jsx?$/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
     ],
   },
   mode: process.env.NODE_ENV,

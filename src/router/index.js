@@ -27,6 +27,10 @@ const router = new VueRouter({
     {
       path:"/login",
       component:LoginView
+    },
+    {
+      path:"/user",
+      component:() => import(/*webpackChunkName:'jsx'*/ '@/views/UserMessage/User.jsx'),
     }
   ]
 });

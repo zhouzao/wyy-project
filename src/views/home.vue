@@ -129,12 +129,17 @@ export default {
   },
   created() {
     BlockPage().then((res) => {
+      if (localStorage.getItem('_m_cookie')) {
+        this.topsong = res.data.data.blocks[2].creatives; //新歌新碟
+      } else {
+        this.topsong = res.data.data.blocks[5].creatives; //新歌新碟
+      }
       this.banners = res.data.data.blocks[0].extInfo.banners;
-      this.topsong = res.data.data.blocks[5].creatives; //新歌新碟
+
       this.blocks = res.data.data.blocks[3].creatives; //
       this.result = res.data.data.blocks[1].creatives.splice(1); //推荐歌单
       this.result_banner = res.data.data.blocks[1].creatives[0];
-      console.log(this.blocks);
+      console.log(this.topsong);
     });
     DragonBall().then((res) => {
       this.menulist = res.data.data;
