@@ -7,10 +7,12 @@ import App from "@/App.vue"
 import { Toast } from 'vant';
 import { Swipe, SwipeItem } from 'vant';
 import { Sticky,Button } from 'vant';
+import { NoticeBar } from 'vant';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import DrawerView from '@/components/DrawerView.vue';
 import SwitchView from "@/components/SwitchView.vue"
+
 Vue.component('DrawerView', DrawerView)
 Vue.component("SwitchView",SwitchView)
 dayjs.extend(relativeTime);
@@ -19,7 +21,7 @@ Vue.use(Swipe);
 Vue.use(SwipeItem);
 Vue.use(Sticky);
 Vue.use(Button)
-
+Vue.use(NoticeBar)
 const vm = new Vue({
   // 挂载节点
   el: '#app',

@@ -1,6 +1,6 @@
 <template>
   <div class="song_detail">
-    <div class="bg-[#9a5653] overflow-hidden">
+    <div class="bg-[#9a5653] overflow-hidden overflow-y: scroll;" ref="scroll">
       <div class="w-[92vw] mx-auto my-[5vw]">
         <div
           class="flex items-center text-[7vw] text-[#ffffff] justify-between"
@@ -8,15 +8,38 @@
           <div class="flex items-center">
             <Icon icon="solar:arrow-left-linear" />
             <div class="ml-[5vw] text-[5vw]">歌单</div>
+            <!-- <van-notice-bar
+              left-icon="volume-o"
+              text="无论我们能活多久"
+              crollable:true
+            /> -->
           </div>
           <div class="flex items-center">
             <Icon icon="ion:search-outline" />
             <Icon icon="iconamoon:menu-kebab-vertical-bold" class="ml-[9vw]" />
           </div>
         </div>
-        <!-- <van-sticky>
-          <van-button type="primary">基础用法</van-button>
-        </van-sticky> -->
+        <van-sticky
+          class="fixed top-0 left-0 h-[10vw] overflow-hidden w-[100vw]"
+          v-if="vis"
+        >
+          <div
+            class="flex items-center text-[7vw] text-[#ffffff] justify-between"
+          >
+            <div class="flex items-center">
+              <Icon icon="solar:arrow-left-linear" />
+              <div class="ml-[5vw] text-[5vw]">歌单</div>
+            </div>
+            <div class="flex items-center">
+              <Icon icon="ion:search-outline" />
+              <Icon
+                icon="iconamoon:menu-kebab-vertical-bold"
+                class="ml-[9vw]"
+              />
+            </div>
+          </div>
+        </van-sticky>
+
         <div class="flex items-start mt-[8vw]" v-if="!hide">
           <div>
             <img
@@ -74,7 +97,91 @@
             />
           </div>
         </div>
-        <div v-else>123</div>
+        <div v-else class="mt-[8vw]">
+          <div class="flex justify-between">
+            <div>喜欢这个歌单的用户也听了</div>
+            <div class="w-[5vw] h-[5vw] bg-[#ccc] rounded-[50%] mt-2">
+              <Icon
+                icon="icon-park:up"
+                class="relative top-[0] left-[0]"
+                @click.native="hide = !hide"
+              />
+            </div>
+          </div>
+          <div ref="scroll" class="w-[100%] overflow-hidden">
+            <!-- <button @click="express">点击</button> -->
+            <ul
+              class="flex"
+              style="width: 780px; justify-content: space-around"
+            >
+              <li
+                v-for="item in result"
+                :key="item.id"
+                class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px] dark:border-[#25272e]"
+              >
+                <div class="relative">
+                  <img
+                    :src="item.resources[0].uiElement.image.imageUrl"
+                    alt=""
+                    class="w-[120px] h-[120px] rounded-2xl"
+                    @click="detail(item.resources[0].resourceId)"
+                  />
+                  <div class="absolute right-1 top-0 flex">
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        color="white"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M18.4 12.5L9 18.38L8 19V6l10.4 6.5m-1.9 0L9 7.8v9.4l7.5-4.7Z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="text-white"
+                      v-if="
+                        item.resources[0].resourceExtInfo.playCount >= 10000 &&
+                        item.resources[0].resourceExtInfo.playCount < 100000000
+                      "
+                      >{{
+                        parseInt(
+                          item.resources[0].resourceExtInfo.playCount / 10000
+                        ).toFixed(1) + '万'
+                      }}</span
+                    >
+                    <span
+                      class="text-white"
+                      v-if="
+                        item.resources[0].resourceExtInfo.playCount >= 100000000
+                      "
+                      >{{
+                        parseInt(
+                          item.resources[0].resourceExtInfo.playCount /
+                            100000000
+                        ).toFixed(1) + '亿'
+                      }}</span
+                    >
+                  </div>
+                  <div class="absolute bottom-2 right-2">
+                    <Icon
+                      icon="fe:play"
+                      class="w-[28px] h-[28px] text-[#fff]"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="text-[15px] h-[45px] line-clamp-2 text-[#3E4759] dark:text-[#ffffff]"
+                >
+                  {{ item.resources[0].uiElement.mainTitle.title }}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div class="text-[#94a8b9] text-[3vw] flex items-center my-[4vw]">
           <div class="w-[86vw] overflow-hidden line-clamp-1 text-[3vw]">
             {{ songdetail.description }}
@@ -169,8 +276,9 @@
   </div>
 </template>
 <script>
-import { songdetail, trackAll } from '@/request/index';
+import { songdetail, trackAll, BlockPage } from '@/request/index';
 import { Icon } from '@iconify/vue2';
+import BScroll from '@better-scroll/core';
 export default {
   components: { Icon },
   data() {
@@ -178,9 +286,34 @@ export default {
       songdetail: {}, //歌单头部详情数据
       song: [], //歌单详情
       hide: false,
+      vis: false,
+      result: [],
     };
   },
+  methods: {
+    init1() {
+      // console.log(this.$refs.scroll);
+      this.scroll = new BScroll(this.$refs.scroll, {
+        scrollX: true,
+        scrollY: false,
+        click: true,
+        probeType: 1,
+        scrollbar: {
+          fade: false,
+          interactive: true,
+          scrollbarTrackClickable: true,
+          scrollbarTrackOffsetType: 'clickedPoint', // can use 'step'
+        },
+      });
+    },
+  },
+  mounted() {
+    this.init1();
+  },
   created() {
+    BlockPage().then((res) => {
+      this.result = res.data.data.blocks[1].creatives.splice(1); //推荐歌单
+    });
     songdetail(this.$route.query.id).then((res) => {
       // console.log(res);
       this.songdetail = res.data.playlist;
@@ -192,6 +325,7 @@ export default {
       this.song = res.data.songs;
       // console.log(this.song);
     });
+    // console.log(this.$refs.scroll);
   },
 };
 </script>

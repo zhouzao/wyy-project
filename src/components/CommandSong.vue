@@ -165,9 +165,7 @@ export default {
       this.$emit('update-message', this.$refs.command.innerHTML);
     },
   },
-  mounted() {
-    this.init1();
-  },
+
   created() {
     this.timer = setInterval(() => {
       this.current++;
@@ -175,6 +173,9 @@ export default {
         this.current = 0;
       }
     }, 4000);
+  },
+  mounted() {
+    this.init1();
   },
 };
 </script>
