@@ -70,3 +70,7 @@ export const getUserAccount = () => http.get("/user/account")
 // 用户详情
 export const  getUserDetail = (id) => http.get("/user/detail",{params:{uid:id}})
 
+// 登录状态
+export  const loginstatus = () => http.get("/login/status")
+
+export const fetchUserPlaylist = (uid) => http.get('/user/playlist', { params: { uid } });

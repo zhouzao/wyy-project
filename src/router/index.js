@@ -30,7 +30,12 @@ const router = new VueRouter({
     },
     {
       path:"/user",
+    
       component:() => import(/*webpackChunkName:'jsx'*/ '@/views/UserMessage/User.jsx'),
+    },
+    {
+      path:"/user/edit",
+      component:() => import("@/views/UserMessage/UserEdit.jsx")
     }
   ]
 });

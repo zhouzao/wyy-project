@@ -284,11 +284,11 @@ export default {
   },
   methods: {
     change({ scrollTop: number, isFixed: boolean }) {
-      console.log(13);
-      if (number > 50) {
+      // console.log(13);
+      if (number > 50 && boolean == true) {
         this.visible = !this.visible;
       } else if (number == 0) {
-        this.visible = !this.visible;
+        this.visible = false;
       }
     },
     init1() {

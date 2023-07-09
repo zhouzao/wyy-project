@@ -65,6 +65,7 @@ import {
   checkqr,
   getUserAccount,
   getUserDetail,
+  loginstatus,
 } from '@/request/index';
 import store from 'storejs';
 export default {
@@ -90,19 +91,25 @@ export default {
           this.state = 800;
         } else if (res.data.code == 803) {
           clearInterval(timer);
-          store.set('_m_cookie', res.data.cookie);
+          store.set('_m_cookie', res.data.cookie); //存cookie
           console.log(res);
           this.state = 803;
-          getUserAccount().then((res) => {
-            store.set('_user_', res.data);
-            console.log(res);
-            console.log(this.id);
-            this.id = res.data.account.id;
-          });
-          getUserDetail(this.id).then((res) => {
-            store.set('_userdata_', res.data);
-            console.log(res);
-          });
+          const user = await getUserAccount();
+          store.set('_user_', user.data); //存用户信息
+          console.log('用户信息', user.data);
+
+          const userdata = await getUserDetail(user.data.account.id);
+          store.set('_userdata_', userdata.data); //存账号信息
+          console.log('账号信息', userdata.data);
+          // getUserDetail(this.id).then((res) => {
+          //   store.set('_userdata_', res.data);
+          //   console.log(res);
+          // });
+          const login = await loginstatus();
+          console.log(login);
+          // loginstatus().then((res) => {
+          //   console.log(res);
+          // });
           this.$router.push('/home');
 
           //   store.set("_m_cookie",res.data.cookie)

@@ -1,29 +1,44 @@
 import styled from "styled-components-vue"
-const Wrapper = styled.div ``
+import store from "storejs"
+const Wrapper = styled.div `
+.van-sticky {
+  background: #ffffff;
+ z-index: 199;
+}
+`
 // background-color: orange;
 // width: 100px;
 // height: 100px;
 // `
 import { Icon } from '@iconify/vue2';
+import { fetchUserPlaylist} from "@/request/index"
 export default{
     
     render(){
         return <Wrapper>
-           <div class=" relative bg-[#00ff00]">
-                <img src={this.img} alt="" />
+            <van-sticky >
+            <div class=" mx-[3vw] flex items-center  text-[7vw] justify-between text-[#ccc] h-[70px]">
+            <Icon icon="majesticons:arrow-left" nativeOnClick={this.home}/>
+            <Icon icon="uim:ellipsis-v" />
+            </div>
+  </van-sticky>
+            
+           <div class=" relative h-[56vw] w-[100%]">
+                <img src={this.user.backgroundUrl} alt="" class=" h-[56vw] w-[100%]" />
                 <div class="px-2 absolute bottom-[7vw] right-[4vw] border-[1px] border-[#ccc] bg-black text-[#ffffff] rounded-2xl">TA的照片</div>
+               
            </div>
-           <div class=" bg-[#f5f5f5] h-[100vh]">
-            <div class=" absolute left-[40%] z-[99] top-[38vw]">
-                <img src={require("@/assets/user.jpg")} alt="" class="w-[17vw] h-[17vw] rounded-[50%]" />
+           <div class=" bg-[#f5f5f5] ">
+            <div class=" absolute left-[40%] z-[99] top-[58vw]">
+                <img src={this.user.avatarUrl} alt="" class="w-[17vw] h-[17vw] rounded-[50%]" />
             </div>
             <div class="w-[90%] mx-auto bg-[#ffffff] rounded-xl relative top-[-4vw] overflow-hidden">
-                <div class="my-[4vw] mx-auto w-[76vw] text-center">
-                    <div class="mt-[10vw]">zh_zhou</div>
+                <div class="my-[4vw] mx-auto  text-center">
+                    <div class="mt-[10vw]">{this.user.nickname}</div>
                     <div class="my-[4vw]">
                         <ul class="flex items-center justify-center">
                             <li class=" px-2 border-r border-[#ccc]">
-                                <span>1</span>
+                                <span>{this.user.follows}</span>
                                 <span>关注</span>
                             </li>
                             <li class=" px-2 border-r border-[#ccc]">
@@ -37,7 +52,7 @@ export default{
                         </ul>
                     </div>
                     <div>
-                        <ul class="flex items-center text-[2vw] justify-between">
+                        <ul class="flex items-center text-[2vw] justify-center mx-[5vw]">
                             <li class="px-[2vw] border rounded-xl border-[#ccc]">
                                 <span>IP:</span>
                                 <span>湖北</span>
@@ -57,9 +72,10 @@ export default{
                         </ul>
                     </div>
                     <div class="flex items-center my-[4vw] justify-center">
-                        <div class="px-[4vw] border border-[#ccc] rounded-xl mx-[2vw]">编辑照片</div>
+                        <div class="px-[4vw] border border-[#ccc] rounded-xl mx-[2vw]" onClick={this.edit}>编辑资料</div>
                         <div class="w-[7vw] h-[7vw] rounded-[50%] border border-[#ccc]" onClick={this.change} >
-                        <Icon icon="mingcute:down-line" class="relative top-[1vw] right-[-1vw]" />
+                       {!this.visible &&  <Icon icon="mingcute:down-line" class="relative top-[1vw] right-[-1vw]" />}
+                        {this.visible &&  <Icon icon="mingcute:up-line" class="relative top-[1vw] right-[-1vw]"/>}
                         </div>
                     </div>
                    {this.visible && <div>123</div>}
@@ -128,7 +144,8 @@ export default{
             </div>
             </div>
           {/* 音乐品味结束 */}
-          <div class="w-[90%] mx-auto bg-[#ffffff] overflow-hidden">
+          {/* 基本信息 */}
+          <div class="w-[90%] mx-auto bg-[#ffffff] overflow-hidden rounded-[15px]">
             <div class="flex items-center w-[85vw] justify-between mx-auto my-[5vw]">
                 <div>基本信息</div>
                 <div class="px-[3vw] border border-[#ccc] rounded-xl">领取村名证</div>
@@ -144,20 +161,104 @@ export default{
                 <span>武汉</span>
             </div>
           </div>
-    </div>
+          {/* 创建的歌单 */}
+               
+                 <div class=" w-[90%] mx-auto mt-3 bg-[#fff] rounded-[15px] px-[4vw] pb-[4vw] pt-[5vw]">
+            <p class=" text-[4vw] mb-[4.4vw]">
+              创建的歌单
+              <span class="text-[#9599a3] text-[2.7vw] ml-[1.6vw]">
+                ({1})个
+              </span>
+            </p>
+            <ul class="">
+              {/* {this.songList.map((item) => ( */}
+                <li class="flex mb-[1.5vw]">
+                  <div class="relative pt-[1vw] mr-[2.6vw] ">
+                    <img
+                      src=""
+                      class="w-[12vw] h-[12vw] rounded-[10px] bg-black z-[2] relative"
+                    />
+                    <div class="w-[9vw] h-[4vw] bg-[#f3f3f3] bg-opacity-50 absolute top-[0vw] left-1/2 -translate-x-1/2 rounded-[8px] z-[1]"></div>
+                  </div>
+                  <div class="flex flex-wrap items-center flex-1">
+                    <p class="w-[100%] text-[3.8vw] text-[#3f4659] line-clamp-1">
+                     笼 《消失的她》 主题曲
+                    </p>
+                    <p class="w-[100%] text-[2.8vw] text-[#aaadb5] line-clamp-1">
+                      {7}首，播放{1}次
+                    
+                    </p>
+                  </div>
+                </li>
+              {/* ))} */}
+            </ul>
+          </div>
           
-           
+          {/* 收藏的歌单 */}
+          <div class=" w-[90%] mx-auto mt-3 bg-[#fff] rounded-[15px] px-[4vw] pb-[4vw] pt-[5vw]">
+            <p class=" text-[4vw] mb-[4.4vw]">
+              收藏的歌单
+              <span class="text-[#9599a3] text-[2.7vw] ml-[1.6vw]">
+                ({2})个
+              </span>
+            </p>
+            <ul class="">
+              {/* {this.songList.map((item) => ( */}
+                <li class="flex mb-[1.5vw]">
+                  <div class="relative pt-[1vw] mr-[2.6vw] ">
+                    <img
+                      src=""
+                      class="w-[12vw] h-[12vw] rounded-[10px] bg-black z-[2] relative"
+                    />
+                    <div class="w-[9vw] h-[4vw] bg-[#f3f3f3] bg-opacity-50 absolute top-[0vw] left-1/2 -translate-x-1/2 rounded-[8px] z-[1]"></div>
+                  </div>
+                  <div class="flex flex-wrap items-center flex-1">
+                    <p class="w-[100%] text-[3.8vw] text-[#3f4659] line-clamp-1">
+                     车载HIFI发烧音质【柏林之声】
+                    </p>
+                    <p class="w-[100%] text-[2.8vw] text-[#aaadb5] line-clamp-1">
+                      {0}首，{0}，播放
+                      {0}次
+                    </p>
+                  </div>
+                </li>
+              {/* ))} */}
+            </ul>
+          </div>
+         
+         
+    </div>
+    
+   
         </Wrapper>
+        
     },
     data(){
         return {
             img:require("@/assets/login.jpg"),
-            visible:false
+            visible:false,
+            user:{}, //用户账号信息
         }
     },
     methods:{
         change(){
             this.visible =!this.visible
+        },
+        edit(){
+            this.$router.push("/user/edit")
+            console.log(this.$router)
+        },
+        home(){
+            // console.log("123")
+            this.$router.push("/home")
         }
+    },
+    created(){
+        this.user = store.get("_userdata_").profile
+        console.log(store.get("_userdata_").profile)
+        console.log(this.user)
+        fetchUserPlaylist(this.user.userId).then((res)=>{
+            console.log(res)
+        })
     }
 }
