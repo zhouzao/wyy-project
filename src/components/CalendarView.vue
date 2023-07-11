@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{ dark: calendar_switch }"
-    class="py-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e]"
+    class="py-5 border-b-[#e6e6e6] border-b dark:border-b-[#25272e] mb-[15vw]"
   >
     <div class="flex items-center justify-between">
       <div class="flex items-center">

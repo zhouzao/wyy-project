@@ -73,4 +73,33 @@ export const  getUserDetail = (id) => http.get("/user/detail",{params:{uid:id}})
 // 登录状态
 export  const loginstatus = () => http.get("/login/status")
 
+// 账号信息
 export const fetchUserPlaylist = (uid) => http.get('/user/playlist', { params: { uid } });
+
+// 播放音乐
+export const getMP3 = (id) => http.get("/song/url/v1",{params:{id,level:'standard'}})
+
+export const getTrackDetail = (id) => http.get('/song/detail', { params: { ids: id } });
+
+// 用户详情页面
+// export const getUserShou = () => http.get('/user/subcount');
+
+// getUserShou().then((res)=>{
+//   console.log(res)
+// })
+/**
+ * @descriptiong 获取用户评论
+ */
+export const fetchUserHistory = (uid) =>
+  http.get('/user/comment/history', { params: { uid } });
+ 
+/**
+ * @descriptiong 获取用户歌单
+ */
+// 收藏歌单加我的评论
+
+
+//修改昵称
+export const fetchUserUpdata = (nickname) => http.get('/user/update', { params: { nickname } });
+//昵称修改判断是否重复
+export const featNicknameCheck = (nickname) => http.get('/nickname/check', { params: { nickname } });

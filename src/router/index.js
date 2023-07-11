@@ -36,6 +36,10 @@ const router = new VueRouter({
     {
       path:"/user/edit",
       component:() => import("@/views/UserMessage/UserEdit.jsx")
+    },
+    {
+      path:"/song",
+      component:() => import("@/views/songplay/SongPlay.vue")
     }
   ]
 });

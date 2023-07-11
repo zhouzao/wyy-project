@@ -4,6 +4,24 @@ const Wrapper = styled.div `
 .van-sticky {
   background: #ffffff;
  z-index: 199;
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+}
+.van-tabs__wrap{
+  width: 90%;
+  margin: 0 auto 5vw;
+ 
+}
+.van-tabs__nav{
+  background: #f5f5f5;
+}
+.van-tabs__content{
+  /* height: 100vh; */
+  /* text-align: center;
+  margin: 10vw 0; */
+  margin: 2vw 0;
 }
 `
 // background-color: orange;
@@ -12,6 +30,7 @@ const Wrapper = styled.div `
 // `
 import { Icon } from '@iconify/vue2';
 import { fetchUserPlaylist} from "@/request/index"
+import { Tab, Tabs } from 'vant';
 export default{
     
     render(){
@@ -23,18 +42,18 @@ export default{
             </div>
   </van-sticky>
             
-           <div class=" relative h-[56vw] w-[100%]">
-                <img src={this.user.backgroundUrl} alt="" class=" h-[56vw] w-[100%]" />
+           <div class=" relative h-[73vw] w-[100%]">
+                <img src={this.user.backgroundUrl} alt="" class=" h-[73vw] w-[100%]" />
                 <div class="px-2 absolute bottom-[7vw] right-[4vw] border-[1px] border-[#ccc] bg-black text-[#ffffff] rounded-2xl">TA的照片</div>
                
            </div>
-           <div class=" bg-[#f5f5f5] ">
+           <div class=" bg-[#f5f5f5]  mb-12">
             <div class=" absolute left-[40%] z-[99] top-[58vw]">
-                <img src={this.user.avatarUrl} alt="" class="w-[17vw] h-[17vw] rounded-[50%]" />
+                {this.user && <img src={this.user.avatarUrl} alt="" class="w-[17vw] h-[17vw] rounded-[50%]" />}
             </div>
             <div class="w-[90%] mx-auto bg-[#ffffff] rounded-xl relative top-[-4vw] overflow-hidden">
-                <div class="my-[4vw] mx-auto  text-center">
-                    <div class="mt-[10vw]">{this.user.nickname}</div>
+                <div class="my-[4vw] mx-auto ">
+                    <div class="mt-[10vw] text-center">{this.user.nickname}</div>
                     <div class="my-[4vw]">
                         <ul class="flex items-center justify-center">
                             <li class=" px-2 border-r border-[#ccc]">
@@ -78,16 +97,24 @@ export default{
                         {this.visible &&  <Icon icon="mingcute:up-line" class="relative top-[1vw] right-[-1vw]"/>}
                         </div>
                     </div>
-                   {this.visible && <div>123</div>}
+                   {this.visible && <div class="animate-pulse animate-pulse-1"> 
+                    <ul>
+                      <li>edwqhiocds</li>
+                      <li>edwqhiocds</li>
+                      <li>edwqhiocds</li>
+                    </ul>
+                    </div>}
                 </div>
             </div>
-            <nav class="flex justify-evenly h-[15vw] items-center font-semibold relative ">
+            {/* <nav class="flex justify-evenly h-[15vw] items-center font-semibold relative ">
             <div class="text-[#2a3146] text-[3.3vw]">主页</div>
             <div class="text-[#9095a1] text-[3.3vw]">动态</div>
             <div class="text-[#9095a1] text-[3.3vw]">播客</div>
             <div class="absolute bg-[#eb474e] w-[4vw] h-[1vw] rounded-[20vw] bottom-[3vw] left-[21.4vw]"></div>
-          </nav>
-              {/* 音乐品味开始 */}
+          </nav> */}
+          <van-tabs v-model={this.activeName}>
+            <van-tab title="主页" name="a">
+               {/* 音乐品味开始 */}
             <div class=" w-[90%] mx-auto bg-[#fefefe] rounded-[15px] px-[4vw] pb-[4vw] pt-[5vw] mb-[4vw]">
             <p class="text-[#2a3146] font-semibold text-[5vw] mb-[2.4vw]">
               音乐品味
@@ -167,30 +194,30 @@ export default{
             <p class=" text-[4vw] mb-[4.4vw]">
               创建的歌单
               <span class="text-[#9599a3] text-[2.7vw] ml-[1.6vw]">
-                ({1})个
+                ({this.create.length})个
               </span>
             </p>
             <ul class="">
-              {/* {this.songList.map((item) => ( */}
-                <li class="flex mb-[1.5vw]">
+              {this.create.map((item) => (
+                <li class="flex mb-[1.5vw]" onClick={()=>this.detail(item.id)} >
                   <div class="relative pt-[1vw] mr-[2.6vw] ">
                     <img
-                      src=""
+                      src={item.coverImgUrl}
                       class="w-[12vw] h-[12vw] rounded-[10px] bg-black z-[2] relative"
                     />
                     <div class="w-[9vw] h-[4vw] bg-[#f3f3f3] bg-opacity-50 absolute top-[0vw] left-1/2 -translate-x-1/2 rounded-[8px] z-[1]"></div>
                   </div>
                   <div class="flex flex-wrap items-center flex-1">
                     <p class="w-[100%] text-[3.8vw] text-[#3f4659] line-clamp-1">
-                     笼 《消失的她》 主题曲
+                     {item.name}
                     </p>
                     <p class="w-[100%] text-[2.8vw] text-[#aaadb5] line-clamp-1">
-                      {7}首，播放{1}次
+                      {item.trackCount}首，播放{item.playCount}次
                     
                     </p>
                   </div>
                 </li>
-              {/* ))} */}
+              ))}
             </ul>
           </div>
           
@@ -199,33 +226,50 @@ export default{
             <p class=" text-[4vw] mb-[4.4vw]">
               收藏的歌单
               <span class="text-[#9599a3] text-[2.7vw] ml-[1.6vw]">
-                ({2})个
+                ({this.collect.length})个
               </span>
             </p>
             <ul class="">
-              {/* {this.songList.map((item) => ( */}
-                <li class="flex mb-[1.5vw]">
+              {this.collect.map((item) => (
+                <li class="flex mb-[1.5vw]" onClick={()=>this.detail(item.id)}>
                   <div class="relative pt-[1vw] mr-[2.6vw] ">
                     <img
-                      src=""
+                      src={item.coverImgUrl}
                       class="w-[12vw] h-[12vw] rounded-[10px] bg-black z-[2] relative"
                     />
                     <div class="w-[9vw] h-[4vw] bg-[#f3f3f3] bg-opacity-50 absolute top-[0vw] left-1/2 -translate-x-1/2 rounded-[8px] z-[1]"></div>
                   </div>
                   <div class="flex flex-wrap items-center flex-1">
                     <p class="w-[100%] text-[3.8vw] text-[#3f4659] line-clamp-1">
-                     车载HIFI发烧音质【柏林之声】
+                     {item.name}
                     </p>
                     <p class="w-[100%] text-[2.8vw] text-[#aaadb5] line-clamp-1">
-                      {0}首，{0}，播放
-                      {0}次
+                      {item.trackCount}首，By{ item.creator.nickname}，播放
+                      {
+                        item.playCount >= 10000 &&
+                        item.playCount < 100000000 && <span>{parseInt(
+                          item.playCount / 10000
+                        ).toFixed(1) + '万'}</span>
+                      }
+                      {
+                        item.playCount >= 100000000&& <span>{ parseInt(
+                          item.playCount / 100000000
+                        ).toFixed(1) + '亿'}</span>
+                      }
+                      
+                    次
                     </p>
                   </div>
                 </li>
-              {/* ))} */}
+               ))} 
             </ul>
           </div>
          
+            </van-tab>
+            <van-tab title="动态" name="b" class="text-center">暂时还没有动态</van-tab>
+            <van-tab title="博客" name="c"  class="text-center">暂无声音</van-tab>
+          </van-tabs>
+             
          
     </div>
     
@@ -235,12 +279,18 @@ export default{
     },
     data(){
         return {
+          activeName:"a",
             img:require("@/assets/login.jpg"),
             visible:false,
             user:{}, //用户账号信息
+            playlist:[],
         }
     },
     methods:{
+      detail(id) {
+        this.$router.push({ path: '/songdetail', query: { id } });
+        // console.log(id)
+      },
         change(){
             this.visible =!this.visible
         },
@@ -258,7 +308,22 @@ export default{
         console.log(store.get("_userdata_").profile)
         console.log(this.user)
         fetchUserPlaylist(this.user.userId).then((res)=>{
-            console.log(res)
+            console.log(res.data.playlist)
+            this.playlist = res.data.playlist
+            
         })
+      
+    },
+    computed:{
+      create(){
+      return this.playlist.filter((item)=>{
+        return item.subscribed==false && item.name!="我喜欢的音乐"
+        })
+      },
+      collect(){
+        return this.playlist.filter((item)=>{
+          return item.subscribed==true
+        })
+      }
     }
 }

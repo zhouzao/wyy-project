@@ -68,6 +68,7 @@
           </div>
         </template>
       </drawer-view>
+      <!-- <bot-song></bot-song> -->
     </div>
   </div>
 </template>
@@ -82,6 +83,7 @@ import NewSong from '@/components/NewSong.vue';
 import ChartsView from '@/components/ChartsView.vue';
 import CalendarView from '@/components/CalendarView.vue';
 import TopicView from '@/components/TopicView.vue';
+// import BotSong from '@/components/BotSong.vue';
 export default {
   name: 'home',
   components: {
