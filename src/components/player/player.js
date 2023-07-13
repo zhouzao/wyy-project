@@ -1,10 +1,6 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable consistent-return */
-/* eslint-disable no-underscore-dangle */
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Howl, Howler } from 'howler';
-import { getTrackDetail, getMP3 } from '../../request/index.js';
+import { getTrackDetail, getMP3 } from '@/request';
+import BotSong from '@/components/BotSong.vue';
 
 export default class {
   constructor() {
@@ -94,11 +90,12 @@ export default class {
 
   async _getAudioSourceFromNetease(track) {
     const data = await getMP3(track.id);
-    console.log(data.data.data[0].url);
+    console.log(data.data.data[0]);
     return new Promise((resolve) => {
       resolve(data.data.data[0].url);
     });
   }
+
   _playAudioSource(source, autoplay = true) {
     Howler.unload();
     this._howler = new Howl({
@@ -155,7 +152,9 @@ export default class {
     this._howler && this._howler.play();
     this._playing = true;
     this._setIntervals();
-    this._duration = this._howler === null ? 0 : this._howler._duration;
+    this._howler.on('load', () => {
+      this._duration = this._howler === null ? 0 : this._howler._duration;
+    });
     // document.title = `${this._currentTrack.name} · ${this._currentTrack.ar[0].name}`;
   }
 
@@ -166,6 +165,7 @@ export default class {
       this.play();
     }
   }
+
 
   // 替换播放列表
   replacePlaylist(
@@ -189,5 +189,9 @@ export default class {
       this.current = trackIDs.indexOf(autoPlayTrackID);
       this._replaceCurrentTrack(autoPlayTrackID);
     }
+  }
+  static install(Vue) {
+    Vue.prototype.$player = Vue.observable(new this());
+    Vue.component("BotSong", BotSong);
   }
 }

@@ -43,13 +43,13 @@ export default{
   </van-sticky>
             
            <div class=" relative h-[73vw] w-[100%]">
-                <img src={this.user.backgroundUrl} alt="" class=" h-[73vw] w-[100%]" />
+                <img src={this.user.profile.backgroundUrl} alt="" class=" h-[73vw] w-[100%]" />
                 <div class="px-2 absolute bottom-[7vw] right-[4vw] border-[1px] border-[#ccc] bg-black text-[#ffffff] rounded-2xl">TA的照片</div>
                
            </div>
            <div class=" bg-[#f5f5f5]  mb-12">
             <div class=" absolute left-[40%] z-[99] top-[58vw]">
-                {this.user && <img src={this.user.avatarUrl} alt="" class="w-[17vw] h-[17vw] rounded-[50%]" />}
+                {this.user && <img src={this.user.profile.avatarUrl} alt="" class="w-[17vw] h-[17vw] rounded-[50%]" />}
             </div>
             <div class="w-[90%] mx-auto bg-[#ffffff] rounded-xl relative top-[-4vw] overflow-hidden">
                 <div class="my-[4vw] mx-auto ">
@@ -57,7 +57,7 @@ export default{
                     <div class="my-[4vw]">
                         <ul class="flex items-center justify-center">
                             <li class=" px-2 border-r border-[#ccc]">
-                                <span>{this.user.follows}</span>
+                                <span>{this.user.profile.follows}</span>
                                 <span>关注</span>
                             </li>
                             <li class=" px-2 border-r border-[#ccc]">
@@ -66,7 +66,7 @@ export default{
                             </li>
                             <li class=" px-2 ">
                                 <span>Lv.</span>
-                                <span>0</span>
+                                <span>{this.user.level}</span>
                             </li>
                         </ul>
                     </div>
@@ -86,7 +86,7 @@ export default{
                             </li>
                             <li  class="px-[2vw] border rounded-xl border-[#ccc]">
                                 <span>村龄</span>
-                                <span>13天</span>
+                                <span>{this.user.createDays}天</span>
                             </li>
                         </ul>
                     </div>
@@ -140,7 +140,7 @@ export default{
                 <div class="w-[100%] text-[2.6vw] text-[#7e7f8b]">
                   累计听歌
                   <p class="mt-[2.6vw] text-[#545969] text-[3.5vw] font-semibold">
-                    {5}首
+                    {this.user.listenSongs}首
                   </p>
                 </div>
                 <div class="w-[100%] text-[2.6vw] text-[#7e7f8b] flex items-center ">
@@ -175,11 +175,11 @@ export default{
           <div class="w-[90%] mx-auto bg-[#ffffff] overflow-hidden rounded-[15px]">
             <div class="flex items-center w-[85vw] justify-between mx-auto my-[5vw]">
                 <div>基本信息</div>
-                <div class="px-[3vw] border border-[#ccc] rounded-xl">领取村名证</div>
+                <div class="px-[3vw] border border-[#ccc] rounded-xl">{this.user.profileVillageInfo.title}</div>
             </div>
             <div class="w-[85vw] mx-auto">
                 <span>村邻:</span>
-                <span>13天</span>
+                <span>{this.user.createDays}天</span>
                 <span>(2023年06月注册)</span>
             </div>
             <div class='my-[5vw] w-[85vw] mx-auto'>
@@ -304,10 +304,10 @@ export default{
         }
     },
     created(){
-        this.user = store.get("_userdata_").profile
-        console.log(store.get("_userdata_").profile)
+        this.user = store.get("_userdata_")
+        console.log(store.get("_userdata_"))
         console.log(this.user)
-        fetchUserPlaylist(this.user.userId).then((res)=>{
+        fetchUserPlaylist(this.user.profile.userId).then((res)=>{
             console.log(res.data.playlist)
             this.playlist = res.data.playlist
             

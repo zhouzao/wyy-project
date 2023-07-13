@@ -1,5 +1,6 @@
 import styled from "styled-components-vue"
 import { areaList } from '@vant/area-data';
+import store from "storejs"
 const Wrapper = styled.div `
 .van-cell-group{
     margin: 4vw 0;
@@ -29,10 +30,10 @@ export default{
                
                <van-cell-group >
                     <van-cell title="头像">
-                    <img src={require('@/assets/user.jpg')} alt="" class="w-[15vw] h-[15vw] rounded-[50%] float-right"/> 
+                    <img src={this.useredit.profile.avatarUrl} alt="" class="w-[15vw] h-[15vw] rounded-[50%] float-right"/> 
                     </van-cell>
-                    <van-cell title="昵称" value="zh_zhou" onClick={this.username}/>
-                    <van-cell title="性别" value="男" />
+                    <van-cell title="昵称" value={this.useredit.profile.nickname} onClick={this.username}/>
+                    <van-cell title="性别" value={this.useredit.profile.gender ==0?'保密':this.useredit.profile.gender ==1?'男':'女'} />
                     <van-cell title="二维码" >
                         <Icon icon="mingcute:qrcode-line"  class="text-[#ccc] text-[7vw] float-right"/> 
                     </van-cell>
@@ -76,7 +77,7 @@ export default{
                 columns-num="2"
                 confirm-button-text="完成"
                 area-list={areaList}
-                
+                onConfirm={this.confirm}
                 />
            </van-popup>
          
@@ -110,9 +111,13 @@ export default{
            duplicated: false,//判断昵称是否重复
            nickname: "",//value值
            errors:'昵称已经被注册，请选择下列名称',
+           useredit:{} ,//用户信息
         }
     },
     methods:{
+        confirm(e){
+          console.log(e)  
+        },
         username(){
             this.user = !this.user
         },
@@ -123,7 +128,9 @@ export default{
             this.show = !this.show
         }
     },
-    // created(){
-        
-    // }
+    created(){
+        this.useredit = store.get("_userdata_")
+        console.log(store.get("_userdata_"))
+        console.log(this.useredit)
+    }
 }

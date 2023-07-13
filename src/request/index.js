@@ -51,7 +51,7 @@ export async  function playlist() {
   return playlist
 }
 
-// 歌单头部详情
+// 歌单头部详情  收藏歌单
 export const songdetail = (id) => http.get(`/playlist/detail`,{params:{id}})
 
 // 歌单所有详情
@@ -82,11 +82,11 @@ export const getMP3 = (id) => http.get("/song/url/v1",{params:{id,level:'standar
 export const getTrackDetail = (id) => http.get('/song/detail', { params: { ids: id } });
 
 // 用户详情页面
-// export const getUserShou = () => http.get('/user/subcount');
+export const getUserShou = () => http.get('/user/subcount');
 
-// getUserShou().then((res)=>{
-//   console.log(res)
-// })
+getUserShou().then((res)=>{
+  console.log(res)
+})
 /**
  * @descriptiong 获取用户评论
  */
@@ -103,3 +103,13 @@ export const fetchUserHistory = (uid) =>
 export const fetchUserUpdata = (nickname) => http.get('/user/update', { params: { nickname } });
 //昵称修改判断是否重复
 export const featNicknameCheck = (nickname) => http.get('/nickname/check', { params: { nickname } });
+
+// 国家编码列表
+//  /countries/code/list
+// export const codelist = () => http.get("/countries/code/list")
+// codelist().then((res)=>{
+//   console.log(res)
+// })
+
+// MV排行榜
+export const mvlist = (area) => http.get("/top/mv",{params:{limit:50,area}})

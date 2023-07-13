@@ -1,7 +1,7 @@
 <template>
   <div class="song_detail">
     <div class="bg-[#9a5653] overflow-hidden overflow-y: scroll;" ref="scroll">
-      <div class="w-[92vw] mx-auto my-[5vw]">
+      <div class="w-[92vw] mx-auto">
         <van-sticky class="bg-[#9a5653]" @scroll="change">
           <div
             class="flex items-center text-[7vw] h-[14vw] text-[#ffffff] justify-between"
@@ -242,7 +242,12 @@
         </div>
         <div>
           <ul class="mb-[16vw]">
-            <li v-for="(item, index) in song" :key="item.id" class="mt-[5vw]">
+            <li
+              v-for="(item, index) in song"
+              :key="item.id"
+              class="mt-[5vw]"
+              @click="playOne(item)"
+            >
               <div class="flex items-center justify-between">
                 <div class="text-[#ccc]">{{ index + 1 }}</div>
                 <div class="ml-[5vw]">
@@ -290,6 +295,9 @@ import { NoticeBar } from 'vant';
 import { Icon } from '@iconify/vue2';
 import BScroll from '@better-scroll/core';
 import { Sticky } from 'vant';
+import store from 'storejs';
+import { all } from 'axios';
+import BetterScroll from '@better-scroll/core';
 export default {
   components: { Icon },
   data() {
@@ -304,20 +312,27 @@ export default {
   },
 
   methods: {
+    playOne(item) {
+      this.$player.replacePlaylist([item.id], '', '', item.id);
+      // store.remove('cookie_music');
+      this.$router.push('/song');
+    },
     home() {
       this.$router.push('/home');
     },
     playAll() {
-      window.$player.playOrPause();
+      // this.$player.playOrPause();
       // console.log(this.song);
       // this.$root;
-      window.$player.replacePlaylist(
+      this.$player.replacePlaylist(
         this.song.map((song) => song.id),
         '',
         ''
       );
-      // all,
+      store.set('cookie_music', this.song);
+      this.$router.push('/song');
     },
+    all,
 
     change({ scrollTop: number, isFixed: boolean }) {
       // console.log(13);
@@ -327,31 +342,27 @@ export default {
         this.visible = false;
       }
     },
-    init1() {
-      this.scroll = new BScroll(this.$refs.scroll, {
-        observeDOM: true,
-        scrollX: true,
-        scrollY: false,
-        click: true,
-        probeType: 1,
-        scrollbar: {
-          fade: false,
-          interactive: true,
-          scrollbarTrackClickable: true,
-          scrollbarTrackOffsetType: 'clickedPoint', // can use 'step'
-        },
-      });
-    },
+    // init1() {
+    //   this.scroll = new BScroll(this.$refs.scroll, {
+    //     observeDOM: true,
+    //     scrollX: true,
+    //     scrollY: false,
+    //     click: true,
+    //     probeType: 1,
+    //     scrollbar: {
+    //       fade: false,
+    //       interactive: true,
+    //       scrollbarTrackClickable: true,
+    //       scrollbarTrackOffsetType: 'clickedPoint', // can use 'step'
+    //     },
+    //   });
+    // },
   },
   mounted() {
-    this.init1();
-    console.log(this.$refs.scroll);
+    // this.init1();
+    // console.log(this.$refs.scroll);
   },
   created() {
-    console.log(this.$refs.scroll);
-    this.$nextTick(() => {
-      console.log(this.$refs.scroll);
-    });
     BlockPage().then((res) => {
       this.result = res.data.data.blocks[1].creatives.splice(1); //推荐歌单
     });

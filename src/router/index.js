@@ -40,6 +40,10 @@ const router = new VueRouter({
     {
       path:"/song",
       component:() => import("@/views/songplay/SongPlay.vue")
+    },
+    {
+      path:"/mvlist",
+      component:() => import("@/views/mvlist/MvList.vue")
     }
   ]
 });

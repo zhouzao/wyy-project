@@ -15,8 +15,12 @@ import SwitchView from "@/components/SwitchView.vue"
 import { Dialog } from 'vant';
 import 'vant/lib/index.css';
 import Vuex from '@/store/index';
+import BotSong from "@/components/player/player";
+import { Circle } from 'vant';
 
+Vue.use(Circle);
 Vue.use(Vuex)
+Vue.use(BotSong)
 // 全局注册
 Vue.use(Dialog);
 Vue.component('DrawerView', DrawerView)
