@@ -9,7 +9,7 @@
       <h3>MV排行榜</h3>
     </div>
     <div>
-      <van-tabs @click="onClick">
+      <van-tabs @click="onClick" swipeable:true @change="onClick" animated>
         <van-tab :title="item" v-for="item in title" :key="item.id">
           <div>
             <ul class="w-[92vw] mx-auto">
@@ -118,6 +118,18 @@ export default {
     };
   },
   methods: {
+    async beforeChange(index) {
+      try {
+        this.isLoading = true;
+        const res = await Mv(this.tab[index]);
+        this.MvdataList = res.data.data;
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.isLoading = false; // 请求完成后取消加载状态
+      }
+      return true;
+    },
     mv(id) {
       console.log(id);
       this.$router.push({ name: 'videoplayer', params: { id } });

@@ -27,7 +27,8 @@ export default {
         this.$route.path != '/song' &&
         this.$route.path != '/mvlist' &&
         this.$route.path != '/videoplayer' &&
-        this.$route.path != '/search'
+        this.$route.path != '/search' &&
+        this.$route.path != '/songdetail'
       );
     },
   },

@@ -14,7 +14,7 @@ http.interceptors.request.use(function (config) {
   return config
 })
 // 轮播图 新歌新碟 数字专辑 排行榜
-export const BlockPage = () => http.get('/homepage/block/page');
+export const BlockPage = () => http.get('/homepage/block/page'); 
 
 // 每日推荐
 export const DragonBall = () =>http.get("/homepage/dragon/ball");
@@ -111,7 +111,7 @@ export const ip2Territory = (ip) => axios.get(`http://ip-api.com/json/${ip}?lang
 // MV排行榜
 export const mvlist = (area) => http.get("/top/mv",{params:{limit:50,area}})
 
-export const lyricText = (id) => http.get("lyric",{params:{id}})
+export const getLyric = (id) => http.get("lyric",{params:{id}})
 
 // mv播放信息
 /**

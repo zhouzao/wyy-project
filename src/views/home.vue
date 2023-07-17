@@ -68,7 +68,7 @@
           </div>
         </template>
       </drawer-view>
-      <!-- <bot-song></bot-song> -->
+      <bot-song class="fixed bottom-11"></bot-song>
     </div>
   </div>
 </template>

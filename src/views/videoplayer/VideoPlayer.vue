@@ -113,44 +113,47 @@
         <!-- 作者信息、MV信息、歌曲名称轮播 结束 -->
 
         <!-- 点赞、评论、分享、收藏、唱片 开始 -->
-        <div class="w-[10vw]">
+        <div class="w-[10vw] text-center">
           <!-- {/* 点赞开始 */} -->
-          <div class="flex items-center flex-wrap justify-center mb-[4vw]">
-            <Icon class="text-[6vw] mb-[2vw] text-[#eaeaea]" icon="bxs:like" />
-            <span class="text-[#eaeaea] text-[3vw]">{{
-              dataTruncation(currentVideoInteractionData?.likedCount)
-            }}</span>
+          <div class="mb-[4vw]">
+            <Icon
+              class="text-[6vw] mb-[2vw] ml-[2vw] text-[#eaeaea]"
+              icon="bxs:like"
+            />
+            <div class="text-[#eaeaea] text-[3vw]">
+              {{ dataTruncation(currentVideoInteractionData?.likedCount) }}
+            </div>
           </div>
           <!-- {/* 点赞结束 */}  -->
 
           <!-- {/* 评论开始 */} -->
-          <div class="flex items-center flex-wrap justify-center mb-[4vw]">
+          <div class="mb-[4vw]">
             <Icon
-              class="text-[6vw] mb-[2vw] text-[#eaeaea]"
+              class="text-[6vw] mb-[2vw] text-[#eaeaea] ml-[2vw]"
               icon="uis:comment-dots"
             />
-            <span class="text-[#eaeaea] text-[3vw]">{{
-              dataTruncation(currentVideoInteractionData?.commentCount)
-            }}</span>
+            <div class="text-[#eaeaea] text-[3vw]">
+              {{ dataTruncation(currentVideoInteractionData?.commentCount) }}
+            </div>
           </div>
           <!-- {/* 评论结束 */} -->
 
           <!-- {/* 分享开始 */} -->
-          <div class="flex items-center flex-wrap justify-center mb-[4vw]">
+          <div class="mb-[4vw]">
             <Icon
-              class="text-[6vw] mb-[2vw] text-[#eaeaea]"
+              class="text-[6vw] mb-[2vw] text-[#eaeaea] ml-[2vw]"
               icon="majesticons:share"
             />
-            <span class="text-[#eaeaea] text-[3vw]">{{
-              dataTruncation(currentVideoInteractionData?.shareCount)
-            }}</span>
+            <div class="text-[#eaeaea] text-[3vw]">
+              {{ dataTruncation(currentVideoInteractionData?.shareCount) }}
+            </div>
           </div>
           <!-- {/* 分享结束 */} -->
 
           <!-- {/* 收藏开始 */} -->
-          <div class="flex items-center flex-wrap justify-center mb-[4vw]">
+          <div class="mb-[4vw]">
             <Icon
-              class="text-[6vw] mb-[2vw] text-[#eaeaea]"
+              class="text-[6vw] mb-[2vw] text-[#eaeaea] ml-[2vw]"
               icon="fluent:collections-24-filled"
             />
             <span class="text-[#eaeaea] text-[3vw]">收藏</span>

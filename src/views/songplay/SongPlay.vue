@@ -257,7 +257,7 @@
 <script>
 import { Icon } from '@iconify/vue2';
 import store from 'storejs';
-import { lyricText } from '@/request/index';
+import { getLyric } from '@/request/index';
 import Lyric from 'lyric-parser';
 export default {
   components: {
@@ -286,12 +286,12 @@ export default {
       return this.ids.push(item.id);
     });
     console.log(this.currentid);
-    lyricText(this.currentid).then((res) => {
+    getLyric(this.currentid).then((res) => {
       console.log(res);
       // this.lyricStr = res.data.lrc.lyric;
       this.lyric = new Lyric(res.data.lrc.lyric);
       // console.log(this.lyricStr);
-      console.log(this.lyric);
+      // console.log(this.lyric);
     });
   },
   methods: {
@@ -314,6 +314,7 @@ export default {
     },
     //点击替换
     playSingle(id) {
+      console.log(id);
       // this.music = store.set('cookie_music');
       this.$player.replacePlaylist(
         this.$player.list.map((data) => data),
@@ -373,7 +374,7 @@ export default {
     currentid(value) {
       this.currentid = value;
 
-      lyricText(value).then((res) => {
+      getLyric(value).then((res) => {
         // console.log(res);
         // this.lyricStr = res.data.lrc.lyric;
         this.lyric = new Lyric(res.data.lrc.lyric);
