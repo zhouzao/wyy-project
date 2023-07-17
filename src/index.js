@@ -17,7 +17,16 @@ import 'vant/lib/index.css';
 import Vuex from '@/store/index';
 import BotSong from "@/components/player/player";
 import { Circle } from 'vant';
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
+import { Tabbar, TabbarItem } from 'vant';
+import { Collapse, CollapseItem } from 'vant';
 
+Vue.use(Collapse);
+Vue.use(CollapseItem);
+Vue.use(Tabbar);
+Vue.use(TabbarItem);
+Vue.component('VueSlider', VueSlider)
 Vue.use(Circle);
 Vue.use(Vuex)
 Vue.use(BotSong)

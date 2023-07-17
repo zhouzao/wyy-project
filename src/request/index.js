@@ -104,12 +104,27 @@ export const fetchUserUpdata = (nickname) => http.get('/user/update', { params: 
 //昵称修改判断是否重复
 export const featNicknameCheck = (nickname) => http.get('/nickname/check', { params: { nickname } });
 
-// 国家编码列表
-//  /countries/code/list
-// export const codelist = () => http.get("/countries/code/list")
-// codelist().then((res)=>{
-//   console.log(res)
-// })
+// ip
+export const getIPAddr = () => axios.get('https://api.ipify.org?format=json')
+export const ip2Territory = (ip) => axios.get(`http://ip-api.com/json/${ip}?lang=zh-CN`)
 
 // MV排行榜
 export const mvlist = (area) => http.get("/top/mv",{params:{limit:50,area}})
+
+export const lyricText = (id) => http.get("lyric",{params:{id}})
+
+// mv播放信息
+/**
+* @description MV视频
+*/
+export const featMvUrl = (id) => http.get('/mv/url', { params: { id } });
+
+/**
+* @description MV视频信息
+*/
+export const featMvDetail = (mvid) => http.get('/mv/detail', { params: { mvid } });
+
+/**
+* @description 获取 mv 点赞转发评论数数据
+*/
+export const featMvDetailInfo = (mvid) => http.get('/mv/detail/info', { params: { mvid } });

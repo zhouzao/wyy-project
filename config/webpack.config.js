@@ -38,7 +38,10 @@ module.exports = {
       {  test:/\.png$/,//正则验证文件的格式
         type:"asset/resource" //发送一个单独的文件并导出URL
       },
-    
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader'

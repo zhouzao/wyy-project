@@ -44,6 +44,11 @@ const router = new VueRouter({
     {
       path:"/mvlist",
       component:() => import("@/views/mvlist/MvList.vue")
+    },
+    {
+      path:"/videoplayer",
+      name:"videoplayer",
+      component:() => import("@/views/videoplayer/VideoPlayer.vue")
     }
   ]
 });

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#eeeeee] w-screen h-screen">
+  <div class="bg-[#eeeeee]">
     <div class="overflow-hidden">
       <div class="flex items-center w-[90vw] mx-auto my-3">
         <Icon
@@ -85,8 +85,11 @@
         </li>
       </ul>
     </div>
-    <div class="w-[100%] overflow-hidden" v-if="search_song.length == ''">
-      <van-swipe :loop="false" class="w-[61vw] h-auto" :show-indicators="false">
+    <div
+      class="w-[100%] overflow-hidden mb-[13vw]"
+      v-if="search_song.length == ''"
+    >
+      <van-swipe :loop="false" :show-indicators="false">
         <van-swipe-item
           v-for="item in playlist"
           :key="item.id"
@@ -106,7 +109,7 @@
               <li
                 v-for="(item1, index) in item.tracks.slice(0, 20)"
                 :key="item1.id"
-                class="mt-5"
+                class="mt-5 overflow-hidden w-[52vw] line-clamp-1 text-ellipsis whitespace-nowrap"
               >
                 <span :style="{ color: `${index < 3 ? 'red' : '#ccc'}` }">{{
                   index + 1
@@ -208,4 +211,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.van-swipe-item {
+  width: 61vw !important;
+}
+</style>

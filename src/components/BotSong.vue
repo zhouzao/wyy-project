@@ -1,6 +1,7 @@
 <template>
   <div
-    class="fixed bottom-0 px-[5vw] bg-[#F9F9FA] h-[12.5vw] border-b-[1px] border-[#F5F8FA] flex items-center w-[100vw]"
+    class="fixed bottom-0 px-[5vw] bg-[#F9F9FA] h-[12.5vw] border-b-[1px] border-[#ccc] flex items-center w-[100vw]"
+    @click="$router.push('/song')"
   >
     <div class="flex items-center">
       <div
@@ -22,7 +23,9 @@
       >
         <span class="text-[#3E485E]"> {{ $player._currentTrack.name }}</span>
 
-        <span>-{{ $player._currentTrack.ar[0].name }}</span>
+        <span v-if="$player._currentTrack && $player._currentTrack.ar"
+          >-{{ $player._currentTrack.ar[0].name }}</span
+        >
       </div>
     </div>
     <div class="w-[5.6vw] h-[5.6vw] relative overflow-hidden">
@@ -59,7 +62,9 @@
       <div class="playmusic py-[6vw]">
         <h1 class="text-[4vw] font-extrabold">
           当前播放
-          <span class="text-[2vw] text-[#929293]">({{ music.length }}) </span>
+          <span class="text-[2vw] text-[#929293]" v-if="music.length > 0"
+            >({{ music.length }})
+          </span>
         </h1>
         <div class="flex justify-between mt-[6.6vw] items-center">
           <div class="flex">
@@ -102,7 +107,7 @@
         >
           <div class="flex items-center">
             <img
-              src="/static/wave.gif"
+              src="@/assets/wave.gif"
               class="red-image w-[2vw] h-[2vw]"
               v-if="item.id === $player._currentTrack.id"
               alt=""
@@ -119,6 +124,7 @@
                   item.id === $player._currentTrack.id ? 'text-[#D15B57]' : ''
                 "
                 class="text-[3vw] text-[#BCBCBC]"
+                v-if="item && item.ar"
                 >-{{ item.ar[0].name }}</span
               >
             </h1>
@@ -165,7 +171,7 @@ export default {
     // console.log(this.$player);
     this.music = store.get('cookie_music');
 
-    console.log(this.music);
+    // console.log(this.music);
   },
   methods: {
     pause() {
@@ -174,3 +180,8 @@ export default {
   },
 };
 </script>
+<style>
+.red-image {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='colorize'><feColorMatrix type='matrix' values='1 0 0 0 0.698 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter></svg>#colorize");
+}
+</style>

@@ -1,5 +1,7 @@
 import styled from "styled-components-vue"
 import store from "storejs"
+import { getIPAddr,
+  ip2Territory} from "@/request"
 const Wrapper = styled.div `
 .van-sticky {
   background: #ffffff;
@@ -61,7 +63,7 @@ export default{
                                 <span>关注</span>
                             </li>
                             <li class=" px-2 border-r border-[#ccc]">
-                                <span>0</span>
+                                <span>{this.userData.profile.followeds}</span>
                                 <span>粉丝</span>
                             </li>
                             <li class=" px-2 ">
@@ -74,7 +76,7 @@ export default{
                         <ul class="flex items-center text-[2vw] justify-center mx-[5vw]">
                             <li class="px-[2vw] border rounded-xl border-[#ccc]">
                                 <span>IP:</span>
-                                <span>湖北</span>
+                                {this.ip.city} {this.ip.country}
                             </li>
                             <li  class="px-[2vw] border rounded-xl border-[#ccc]">
                                 <span>70后</span>
@@ -284,6 +286,7 @@ export default{
             visible:false,
             user:{}, //用户账号信息
             playlist:[],
+            ip:{}, //ip
         }
     },
     methods:{
@@ -304,6 +307,7 @@ export default{
         }
     },
     created(){
+      this.ip = getIPAddr().then(res=>{ip2Territory(res.data.ip).then(res => this.ip = res.data)})//ip
         this.user = store.get("_userdata_")
         console.log(store.get("_userdata_"))
         console.log(this.user)

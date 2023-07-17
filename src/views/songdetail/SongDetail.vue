@@ -2,7 +2,7 @@
   <div class="song_detail">
     <div class="bg-[#9a5653] overflow-hidden overflow-y: scroll;" ref="scroll">
       <div class="w-[92vw] mx-auto">
-        <van-sticky class="bg-[#9a5653]" @scroll="change">
+        <van-sticky class="bg-[#9a5653]">
           <div
             class="flex items-center text-[7vw] h-[14vw] text-[#ffffff] justify-between"
           >
@@ -73,7 +73,9 @@
               :key="item.id"
               class="bg-[#7392ae] pl-[2vw] rounded-md text-[#ffffff] flex items-center"
             >
-              <div class="text-[2vw] leading-[3vw]">{{ item }}</div>
+              <div class="text-[2vw] leading-[3vw]">
+                {{ item }}
+              </div>
               <Icon icon="mingcute:right-line" />
             </div>
           </div>
@@ -101,16 +103,16 @@
           <!-- <button @click="express">点击</button> -->
           <ul class="flex w-[780px] justify-around">
             <li
-              v-for="item in result"
-              :key="item.id"
+              v-for="item2 in result"
+              :key="item2.creativeId"
               class="w-[120px] border-t-[6px] border-[#ccc] rounded-t-[20px] dark:border-[#25272e]"
             >
               <div class="relative">
                 <img
-                  :src="item.resources[0].uiElement.image.imageUrl"
+                  :src="item2.resources[0].uiElement.image.imageUrl"
                   alt=""
                   class="w-[120px] h-[120px] rounded-2xl"
-                  @click="detail(item.resources[0].resourceId)"
+                  @click="detail(item2.resources[0].resourceId)"
                 />
                 <div class="absolute right-1 top-0 flex">
                   <span>
@@ -130,23 +132,23 @@
                   <span
                     class="text-white"
                     v-if="
-                      item.resources[0].resourceExtInfo.playCount >= 10000 &&
-                      item.resources[0].resourceExtInfo.playCount < 100000000
+                      item2.resources[0].resourceExtInfo.playCount >= 10000 &&
+                      item2.resources[0].resourceExtInfo.playCount < 100000000
                     "
                     >{{
                       parseInt(
-                        item.resources[0].resourceExtInfo.playCount / 10000
+                        item2.resources[0].resourceExtInfo.playCount / 10000
                       ).toFixed(1) + '万'
                     }}</span
                   >
                   <span
                     class="text-white"
                     v-if="
-                      item.resources[0].resourceExtInfo.playCount >= 100000000
+                      item2.resources[0].resourceExtInfo.playCount >= 100000000
                     "
                     >{{
                       parseInt(
-                        item.resources[0].resourceExtInfo.playCount / 100000000
+                        item2.resources[0].resourceExtInfo.playCount / 100000000
                       ).toFixed(1) + '亿'
                     }}</span
                   >
@@ -158,7 +160,7 @@
               <div
                 class="text-[15px] h-[45px] line-clamp-2 text-[#3E4759] dark:text-[#ffffff]"
               >
-                {{ item.resources[0].uiElement.mainTitle.title }}
+                {{ item2.resources[0].uiElement.mainTitle.title }}
               </div>
             </li>
           </ul>
@@ -249,7 +251,9 @@
               @click="playOne(item)"
             >
               <div class="flex items-center justify-between">
-                <div class="text-[#ccc]">{{ index + 1 }}</div>
+                <div class="text-[#ccc]">
+                  {{ index + 1 }}
+                </div>
                 <div class="ml-[5vw]">
                   <div
                     class="text-[4vw] w-[61vw] text-ellipsis overflow-hidden whitespace-nowrap"
@@ -314,7 +318,7 @@ export default {
   methods: {
     playOne(item) {
       this.$player.replacePlaylist([item.id], '', '', item.id);
-      // store.remove('cookie_music');
+      store.set('cookie_music', this.song);
       this.$router.push('/song');
     },
     home() {
@@ -334,14 +338,14 @@ export default {
     },
     all,
 
-    change({ scrollTop: number, isFixed: boolean }) {
-      // console.log(13);
-      if (number > 50 && boolean == true) {
-        this.visible = !this.visible;
-      } else if (number == 0) {
-        this.visible = false;
-      }
-    },
+    // change({ scrollTop: number, isFixed: boolean }) {
+    //   // console.log(13);
+    //   if (number > 50 && boolean == true) {
+    //     this.visible = !this.visible;
+    //   } else if (number == 0) {
+    //     this.visible = false;
+    //   }
+    // },
     // init1() {
     //   this.scroll = new BScroll(this.$refs.scroll, {
     //     observeDOM: true,
